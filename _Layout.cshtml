@@ -36,6 +36,7 @@
         </header>
 
         @RenderBody()
+
         @RenderSection("scripts", required: false)
         <footer>
             <div class="row">
@@ -44,7 +45,7 @@
                     <p> (c) 2017 DBWT </p>
                 </div>
                 @{
-                    var time = DateTime.Now;//.ToString("de-DE");
+                    var curTime = DateTime.Now;
 
                 }
                 <nav class="col-8">
@@ -53,7 +54,7 @@
                         <li class="nav-item"><a class="nav-link" href="#">Registrieren</a> </li>
                         <li class="nav-item"><a class="nav-link active" href="#">Zutatenliste</a></li>
                         <li class="nav-item"><a class="nav-link" href="/M2Git/Impressum.cshtml">Impressum</a> </li>
-                        <li class="nav-item">Zeit: @time</li>
+                        <li class="nav-item">Zeit: @curTime</li>
                     </ul>
                 </nav>
             </div>
