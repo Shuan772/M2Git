@@ -1,0 +1,16 @@
+﻿@using MySql.Data.MySqlClient
+
+@helper HelperName(string name) {
+    // Die Hilfsmethode kann Code und/oder Markup enthalten, z. B.
+    // var msg = "Hallo " + name;
+    // <p>@msg</p>
+    // Weitere Informationen finden Sie unter ""http://go.microsoft.com/fwlink/?LinkID=204658"".
+}
+
+@helper test(string name)
+{
+    MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Port=3306;Database=unnamed;Uid=webapp;Pwd=datenbank;");
+    con.Open();
+
+    con.Close();
+}
