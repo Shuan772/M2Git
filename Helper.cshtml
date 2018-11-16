@@ -1,5 +1,6 @@
 ﻿@using MySql.Data.MySqlClient
 
+
 @helper HelperName(string name) {
     // Die Hilfsmethode kann Code und/oder Markup enthalten, z. B.
     // var msg = "Hallo " + name;
@@ -9,8 +10,25 @@
 
 @helper test(string name)
 {
-    MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Port=3306;Database=unnamed;Uid=webapp;Pwd=datenbank;");
-    con.Open();
+MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Port=3306;Database=test;Uid=root;Pwd=datenbank;");
+con.Open();
 
-    con.Close();
+con.Close();
+}
+
+@helper zutatenliste(string filter = "")
+{
+
+MySqlConnection con = new MySqlConnection("Server=127.0.0.1;Port=3306;Database=test;Uid=root;Pwd=datenbank;");
+con.Open();
+string query = "SELECT first_name, last_name, hire_date FROM employees" + " WHERE first_name LIKE '%" + filter + "%';";
+MySqlCommand command = new MySqlCommand(query, con);
+MySqlDataReader reader = command.ExecuteReader();
+
+while (reader.Read())
+{
+        @Zutatenzeile(reader)
+}
+
+con.Close();
 }
