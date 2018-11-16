@@ -37,6 +37,48 @@
             <h2 style="text-align:right">5,95€</h2>
             <button type="button" style="align-self:auto"><i class="fas fa-utensils"></i>Vorbestellen</button>
         </div>
+
+        <div class="row">
+            <div class="col-3">
+                <p>Melden Sie sich jetzt an, um die wirklich viel günstigeren Preise für Mitarbeiter oder Studenten zu sehen.</p>
+            </div>
+            <div class="col-6">
+                <div class="tabs">
+                    <div class="tab ">
+                        <input type="radio" id="tab-1" name="tab-group-1" checked>
+                        <label for="tab-1">Beschreibung</label>
+                        <div class="content">
+                            <p>Teigtaschen mit Falafel aus Kichererbsen und Sesam, dazu passt hervorragend der <a href="#"><u>Krautsalat</u></a></p>
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <input type="radio" id="tab-2" name="tab-group-1">
+                        <label for="tab-2">Zutaten</label>
+                        <div class="content">
+                            <p>Kichererbsen , Sesam</p>
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <input type="radio" id="tab-3" name="tab-group-1">
+                        <label for="tab-3">Bewertungen</label>
+                        <div class="content">
+                            <p>7 von 10 Sternen</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <form action="http://bc5.m2c-lab.fh-aachen.de/form.php" method="post">
+                    <textarea placeholder="Bemerkung" name="bemerkung"></textarea>
+                    <input type="text" name="benutzer" placeholder="Name">
+                    <input type="number" name="bewertung" placeholder="5" min="1" max="5">
+                    <input type="hidden" name="matrikel" value="3033858">
+                    <input type="hidden" name="kontrolle" value="dor" />
+                    <button type="submit" name="action">Abschicken</button>
+                </form>
+            </div>
+        </div>
+
     </div>
     <div class="row">
     </div>
