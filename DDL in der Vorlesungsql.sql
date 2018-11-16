@@ -1,328 +1,326 @@
+-- -test------------------------------------------------------------------------------------------------------------------------------------------
+-- -test------------------------------------------------------------------------------------------------------------------------------------------
+-- IF Not EXISTS Create DATABASE Mensa;
+-- use Mensa;
+-- ----Ohne Foreign key zuerst.
+-- DEFAULT 0 -- noch zu setzen
+-- NOT NULL bei Forgein keys
+-- Alle Annahmen Kommentieren
 
--- DB Anlegen und verwenden
--- /wenn die Rechte dazu existieren!
-CREATE DATABASE November;
-USE November;
-
--- DB löschen
-DROP DATABASE November;
-
-
-CREATE TABLE Kunden (
-	Nummer INT,						-- Nummer wie in ERD
-	`Vorname` STRING(100),		-- Geht der String? Datentypen lesen
-	`Nachname` VARCHAR(50),
-	`E-Mail` VARCHAR(255),		-- Backticks `` für problematische Namen
-	`Portrait` BLOB				-- sollte nicht 4mb groß sein ;)
-);
-
--- Daten alle auswählen von Kunden
-SELECT * FROM Kunden;
-
--- Welche Tabellen? Wie sehen die aus?
-SHOW TABLES;
-DESCRIBE Kunden;
-
--- Tabelle(nschema) löschen
-DROP TABLE Kunden;
-CREATE TABLE Kunden (
-	Nummer INT UNSIGNED AUTO_INCREMENT,	
-	`Vorname` VARCHAR(100),			
-	`Nachname` VARCHAR(50) NOT NULL,
-	`E-Mail` VARCHAR(255) UNIQUE,
-	`Portrait` BLOB,				
-	PRIMARY KEY(Nummer) -- Künstlich --> Surrogate Key
-);
-
-CREATE TABLE Bankdaten (
-	IBAN CHAR(22) PRIMARY KEY,
-	BIC CHAR(10), -- abgeleitetes Attribut
-	Kunde INT NOT NULL,
-	CONSTRAINT `KundeFürBankdaten` FOREIGN KEY (Kunde) REFERENCES Kunden(Nummer) -- erster Fremdschlüssel
-);
-
-CREATE TABLE Zutaten(
-	vegan BOOL 
-);
-
-DROP TABLE Zahlungen;
-CREATE TABLE Zahlungen (
-	TXID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, -- so ist es richtig!
-	Betrag DECIMAL(5,2) NOT NULL,
-	Zweck VARCHAR(255) DEFAULT 'Nicht näher beschrieben',
-	Kunde INT NOT NULL,
-	IBAN VARCHAR(22),
-	
-	CONSTRAINT `KundeFürZahlung` 
-		FOREIGN KEY (Kunde) REFERENCES Kunden(Nummer), -- erster Fremdschlüssel,
-	
-	FOREIGN KEY (IBAN) REFERENCES Bankdaten (IBAN) ON DELETE CASCADE
-);
-
-
-
-CREATE TABLE Fahrzeuge (
-	ID INT AUTO_INCREMENT PRIMARY KEY,
-	Erfassungsdatum DATE DEFAULT CURRENT_DATE NOT NULL,
-	Vernichtungsdatum DATE DEFAULT CURRENT_DATE,
-	Kreis VARCHAR(3) NOT NULL DEFAULT 'AC',
-	Kennzeichen VARCHAR(7) NOT NULL,
-	
-	Antrieb ENUM ('Elektro', 'Diesel', 'Benzin', 'Kerosin')
-	
-	-- oder so?
-	-- FOREIGN KEY (Antrieb) REFERENCES Antriebe (Typ)
-);
-
-CREATE TABLE Antriebe (
-	Typ VARCHAR(8) PRIMARY KEY
-);
--- Diesel
--- Benzin
--- Elektro
--- Gas
-
-
--- Primärschlüssel über mehrere Attribute
-CREATE TABLE Raum (
-	Gebäude CHAR(1),
-	Nummer TINYINT(3) UNSIGNED,
-	PRIMARY KEY (Gebäude, Nummer)
-);
-
-CREATE TABLE FahrzeugKunde (
-	Kunde INT,
-	Fahrzeug INT,
-	FOREIGN KEY (Kunde) REFERENCES Kunden(Nummer),
-	FOREIGN KEY (Fahrzeug) REFERENCES Fahrzeuge(ID),
-	PRIMARY KEY (Kunde, Fahrzeug)
-);
-
-CREATE TABLE Parklog (
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,	
-	Einfahrt TIMESTAMP,	
-	Kunde INT,	
-	Fahrzeug INT,	
-	CONSTRAINT `Balalala`
-		FOREIGN KEY (Kunde, Fahrzeug)
-		REFERENCES FahrzeugKunde (Kunde, Fahrzeug)
-);
-
-
-
-
-
-DROP TABLE IF EXISTS Zutaten;
-CREATE TABLE Zutaten (
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Bio Bool,
-	Vegan Bool,
-	Vegetarisch Bool,
-	Glutenfrei Bool,
-	Name VARCHAR(255),
-);
-
+-- Drop Tables ....
+-- Kreuz
+DROP TABLE IF EXISTS MahlzeitenXBilder;
 DROP TABLE IF EXISTS ZutatenXMahlzeiten;
-CREATE TABLE ZutatenXMahlzeiten(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Zutaten INT,
-	Mahlzeiten INT,
-	FOREIGN KEY (Zutaten) REFERENCES Zutaten(ID),
-	FOREIGN KEY (Mahlzeiten) REFERENCES Mahlzeiten(ID)
+DROP TABLE IF EXISTS FHAngehörigeXFachbereiche;
+DROP TABLE IF EXISTS MahlzeitenXDeklarationen;
+DROP TABLE IF EXISTS MahlzeitenXBestellungen;
+DROP TABLE IF EXISTS BenutzerXBenutzer;
+-- andere
+DROP TABLE IF EXISTS Kommentare;
+DROP TABLE IF EXISTS Preise;
+DROP TABLE IF EXISTS Mahlzeiten;
+DROP TABLE IF EXISTS Kategorien;
+DROP TABLE IF EXISTS Student;
+DROP TABLE IF EXISTS Mitarbeiter;
+DROP TABLE IF EXISTS Gäste;
+DROP TABLE IF EXISTS `FHAngehörige`;
+DROP TABLE IF EXISTS Bestellungen;
+-- Ohne 
+DROP TABLE IF EXISTS Fachbereiche;
+DROP TABLE IF EXISTS Deklarationen;
+DROP TABLE IF EXISTS Bilder;
+DROP TABLE IF EXISTS Zutaten;
+DROP TABLE IF EXISTS Benutzer;
+-- Create Tables ....
+-- Ohne 
+CREATE TABLE Zutaten (
+	ID INT UNSIGNED PRIMARY KEY CHECK( ID BETWEEN 9999 AND 100000),
+	Bio BOOL NOT NULL DEFAULT 0,
+	Vegan BOOL NOT NULL DEFAULT 0,
+	Vegetarisch BOOL NOT NULL DEFAULT 0,
+	Glutenfrei BOOL NOT NULL DEFAULT 0,
+	Name VARCHAR(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS Mahlzeiten;
+CREATE TABLE Bilder(
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	`Alt-Text` VARCHAR(255) NOT NULL,
+	Titel VARCHAR(255) ,
+	`Binärdaten` BLOB NOT NULL
+);
+
+CREATE TABLE Deklarationen(
+	Zeichen VARCHAR(2) PRIMARY KEY,
+	Beschriftung VARCHAR(32) NOT NULL
+);
+
+CREATE TABLE Fachbereiche(
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	Website VARCHAR(255) NOT NULL,
+	Name VARCHAR(255) NOT NULL,
+	Adresse VARCHAR(255)
+);
+
+CREATE TABLE Benutzer(
+	Nummer INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	`E-Mail` VARCHAR(255) UNIQUE NOT NULL,
+	LetzterLogin Datetime DEFAULT NULL,
+	Nutzername VARCHAR(255)UNIQUE NOT NULL,
+	Geburtsdatum Date,
+	Aktiv BOOL NOT NULL,
+	Anlegedatum Date NOT NULL,
+	`Alter` INT, -- Berechnet
+	Vorname VARCHAR(100) NOT NULL,
+	Nachname VARCHAR(100) NOT NULL,
+	Salt VARCHAR(32) NOT NULL,
+	`Hash` VARCHAR(24) NOT NULL,
+	ISA ENUM("Gast", "FHAngehörige")
+);
+-- andere
+
+CREATE TABLE Bestellungen(
+	Nummer INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	Bestellzeitpunkt Datetime NOT NULL,
+	Abholzeitpunkt Datetime,
+	Benutzer INT UNSIGNED,
+	FOREIGN KEY (Benutzer) REFERENCES Benutzer(Nummer),
+	Endpreis DOUBLE(2,2) -- Berechnet
+	
+);
+
+CREATE TABLE `FHAngehörige`(
+	ID INT UNSIGNED PRIMARY KEY,
+	FOREIGN KEY (ID) REFERENCES Benutzer(Nummer)
+	-- beziehung zu Benutzer
+);
+CREATE TABLE Gäste(
+	Grund VARCHAR(255),
+	Ablaufdatum Date,
+	ID INT UNSIGNED PRIMARY KEY,
+	FOREIGN KEY (ID) REFERENCES Benutzer(Nummer)
+	-- beziehung zu Benutzer
+);
+CREATE TABLE Mitarbeiter(
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	Telefon VARCHAR(20) ,
+	Büro VARCHAR(20),
+	`FHAngehörige` INT UNSIGNED UNIQUE,
+	FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID)
+
+);
+CREATE TABLE Student(
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	Matrikelnummer INT UNSIGNED UNIQUE NOT NULL CHECK( Matrikelnummer BETWEEN 9999999 AND 1000000000),
+	Studiengang ENUM ("ET", "INF", "ISE", "MCD", "WI") NOT NULL DEFAULT "INF",
+	`FHAngehörige` INT UNSIGNED UNIQUE,
+	FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID)
+);
+
+CREATE TABLE Kategorien(
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	Bezeichnung VARCHAR(255) NOT NULL,
+	Bild INT UNSIGNED,
+	Kategorie INT UNSIGNED,
+	CONSTRAINT `BildDel`
+	FOREIGN KEY (Bild) 
+	REFERENCES Bilder(ID)
+	ON DELETE SET NULL 
+		,
+	CONSTRAINT `ParentDel`
+	FOREIGN KEY (Kategorie) 
+	REFERENCES Kategorien(ID)
+	ON DELETE SET NULL 
+);
+
 CREATE TABLE Mahlzeiten(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Vorrat INT,
-	Beschreibung VARCHAR(255),
-	Verfügbar BOOL, -- Wie rechnet man aus  abgeleitetes attribut
-	FOREIGN KEY (Kommentare) REFERENCES Kommentare(ID)
+	Vorrat INT UNSIGNED NOT NULL DEFAULT 0,
+	Beschreibung VARCHAR(255) NOT NULL,
+	Kategorie INT UNSIGNED,
+	FOREIGN KEY (Kategorie) REFERENCES Kategorien(ID),
+	Verfügbar BOOL, -- Berechnet.
+	PreisID INT UNSIGNED,
+	PreisJahr year
+	-- 	FOREIGN KEY ( PreisID , PreisJahr) REFERENCES Preise(Mahlzeit , Jahr)-- eins zu eins bezieheung mit Preis 
 );
 
-DROP TABLE IF EXISTS MahlzeitenXBilder;
+CREATE TABLE Preise(
+	`MA-Preis` DOUBLE(2,2),
+	Studentpreis DOUBLE(2,2) ,
+	Gastpreis DOUBLE(2,2) NOT NULL,
+	Jahr year NOT NULL,	-- hilfs primary ?
+	Mahlzeit  INT UNSIGNED,
+	CONSTRAINT `PreisZuMahlzeitLöschen` 
+	FOREIGN KEY (Mahlzeit) 
+	REFERENCES Mahlzeiten(ID)
+	ON DELETE CASCADE 
+);
+
+CREATE TABLE Kommentare(
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	Bemerkung VARCHAR(255),
+	Bewertung INT NOT NULL ,
+	Mahlzeiten INT UNSIGNED,
+	Student INT UNSIGNED NOT NULL,
+	FOREIGN KEY (Student) REFERENCES Student(ID),
+	CONSTRAINT `MahlzeitGelöscht`
+	FOREIGN KEY (Mahlzeiten) 
+	REFERENCES Mahlzeiten(ID)
+	ON DELETE SET NULL
+);
+
+-- Kreuz
+CREATE TABLE ZutatenXMahlzeiten(
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	Zutaten INT UNSIGNED NOT NULL,
+	Mahlzeit INT UNSIGNED NOT NULL,
+	FOREIGN KEY (Zutaten) REFERENCES Zutaten(ID)
+
+);
+
 CREATE TABLE MahlzeitenXBilder(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Mahlzeiten INT,
-	Bilder INT,
+	Mahlzeiten INT UNSIGNED NOT NULL,
+	Bilder INT UNSIGNED NOT NULL,
 	FOREIGN KEY (Mahlzeiten) REFERENCES Mahlzeiten(ID),
 	FOREIGN KEY (Bilder) REFERENCES Bilder(ID)
 );
 
-DROP TABLE IF EXISTS Bilder;
-CREATE TABLE Bilder(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	`Alt-Text` VARCHAR(255),
-	Titel VARCHAR(255) NOT NULL,
-	`Binärdaten` BLOB,
-	FOREIGN KEY (Kategorien) REFERENCES Kategorien(ID)
-);
-
-DROP TABLE IF EXISTS Kategorien;
-CREATE TABLE Kategorien(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Bezeichnung VARCHAR(255),
-	FOREIGN KEY (Mahlzeiten) REFERENCES Mahlzeiten(ID),
-	FOREIGN KEY (Kategorien) REFERENCES Kategorien(ID)
-);
-
-DROP TABLE IF EXISTS Preise;
-CREATE TABLE Preise(
-	MA-Preis INT NOT NULL,
-	Studentpreis INT NOT NULL,
-	Gastpreis INT,
-	Jahr year
-);
-
-DROP TABLE IF EXISTS Kommentare;
-CREATE TABLE Kommentare(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Bemerkung VARCHAR(255) NOT NULL,
-	Bewertung INT
-);
-
-DROP TABLE IF EXISTS Student;
-CREATE TABLE Student(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Matrikelnummer INT,
-	Studiengang VARCHAR(255),
-	FOREIGN KEY (Kommentare) REFERENCES Kommentare(ID)
-);
-
-
-DROP TABLE IF EXISTS Mitarbeiter;
-CREATE TABLE Mitarbeiter(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Telefon INT NOT NULL,
-	Büro VARCHAR(255)
-);
-
-DROP TABLE IF EXISTS Gäste;
-CREATE TABLE Gäste(
-	Grund VARCHAR(255),
-	Ablaufdatum Date
-	
-);
-
-DROP TABLE IF EXISTS FH-Angehörige;
-CREATE TABLE FH-Angehörige(
-	
-);
-
-DROP TABLE IF EXISTS Fachbereiche;
-CREATE TABLE Fachbereiche(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Website VARCHAR(255),
-	Name VARCHAR(255)
-);
-
-DROP TABLE IF EXISTS FH-AngehörigerXFachbereich;
-CREATE TABLE FH-AngehörigeXFachbereiche(
-	Fachbereiche INT,
-	FH-Angehörige -- ?????????
+CREATE TABLE FHAngehörigeXFachbereiche(
+	Fachbereiche INT UNSIGNED,
+	FHAngehörige INT UNSIGNED, 
 	FOREIGN KEY (Fachbereiche) REFERENCES Fachbereiche(ID),
-	FOREIGN KEY (FH-Angehörige) REFERENCES FH-Angehörige(ID)
+	FOREIGN KEY (FHAngehörige) REFERENCES FHAngehörige(ID)
+	-- Beziehungs kram
 );
 
-
-DROP TABLE IF EXISTS Deklarationen;
-CREATE TABLE Deklarationen(
-	Zeichen INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Beschriftung VARCHAR(255)
-);
-
-DROP TABLE IF EXISTS MahlzeitenXDeklaration;
 CREATE TABLE MahlzeitenXDeklarationen(
-	Mahlzeiten INT,
-	Deklarationen INT,
+	Mahlzeiten INT UNSIGNED,
+	Deklarationen VARCHAR(2),
 	FOREIGN KEY (Mahlzeiten) REFERENCES Mahlzeiten(ID),
 	FOREIGN KEY (Deklarationen) REFERENCES Deklarationen(Zeichen)
 );
 
-DROP TABLE IF EXISTS Bestellungen;
-CREATE TABLE Bestellungen(
-	Nummer INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Bestellzeitpunkt Datetime,
-	Abholzeitpunkt Datetime NOT NULL,
-	Endpreis INT
-);
-
-DROP TABLE IF EXISTS MahlzeitenXBestellungen;
 CREATE TABLE MahlzeitenXBestellungen(
-	Mahlzeieten INT,
-	Bestellungen INT,
-	Anzahl INT,
+	Mahlzeiten INT UNSIGNED,
+	Bestellungen INT UNSIGNED,
+	Anzahl INT UNSIGNED NOT NULL,
 	FOREIGN KEY (Mahlzeiten) REFERENCES Mahlzeiten(ID),
 	FOREIGN KEY (Bestellungen) REFERENCES Bestellungen(Nummer)
 );
 
-DROP TABLE IF EXISTS Benutzer;
-CREATE TABLE Benutzer(
-	Nummer INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	FOREIGN KEY (Bestellungen) REFERENCES Bestellungen(Nummer),
-	E-Mail VARCHAR(255),
-	Letzter Login Datetime,
-	Nutzername VARCHAR(255),
-	Geburtsdatum Date,
-	Aktiv BOOL,
-	Anlegedatum Date,
-	`Alter` INT, -- bearbeiten
-	Vorname VARCHAR(255),
-	Nachname VARCHAR(255),
-	NAME VARCHAR(255) GENERATED ALWAYS AS (Vorname || ' ' || Nachname) VIRTUAL,
-	Salt VARCHAR(32),
-	`Hash` VARCHAR(24),
-	AUTH VARCHAR(255) GENERATED ALWAYS AS (Salt || ' ' || `Hash`) VIRTUAL
-);
-
-DROP TABLE IF EXISTS BenutzerXBenutzer;
 CREATE TABLE BenutzerXBenutzer(
-	Benutzereins INT,
-	Benutzerzwei INT,
+	Benutzereins INT UNSIGNED,
+	Benutzerzwei INT UNSIGNED,
 	FOREIGN KEY (Benutzereins) REFERENCES Benutzer(Nummer),
 	FOREIGN KEY (Benutzerzwei) REFERENCES Benutzer(Nummer)
 );
 
 
 
-
-
-
-
-
-
--- DDL Tabellen verändern, hier: Constraints (Bedingungen, die erfüllt sein müssen)
-ALTER TABLE Fahrzeuge ADD CONSTRAINT `Fahrzeugeindeutig` UNIQUE (Kreis, Kennzeichen);
-
--- DDL Check Constraint als Bedingung
-ALTER TABLE Raum ADD CONSTRAINT `Gebäudenachplan`  
-CHECK (Gebäude IN ('A', 'C', 'D', 'H'))
--- CHECK `Gebäude` = 'A' OR `Gebäude` = 'C' OR `Gebäude` = 'D'  OR `Gebäude` = 'H';
-
-
--- DML 
-
--- INSERT
-
-DESCRIBE Fahrzeuge
--- INSERT INTO Fahrzeuge (Erfassungsdatum, Vernichtungsdatum, Kreis, Kennzeichen, Antrieb) 
--- VALUES (CURRENT_DATE, NULL, 'TR', 'TT101', 'Diesel');
-
--- DELETE FROM Fahrzeuge WHERE ID = 6
-
--- Attribut in Tabelle aktualisieren für Entitäten, die die WHERE Bedingung erfüllen
-UPDATE Fahrzeuge SET Vernichtungsdatum = '2099-12-31' WHERE ID=8
-
--- 
-SELECT * FROM Fahrzeuge
-
-INSERT INTO Raum (Gebäude, Nummer) 
+INSERT INTO Benutzer (`E-Mail` , Nutzername , Aktiv , Anlegedatum , Vorname , Nachname , Salt , `Hash` , ISA ) 
 VALUES 
-('D',6), -- geht
-('E',141), -- geht nach CHECK constraint nicht mehr
-('E',143),
-('E',145),
-('H',215);
+('test1@test.de','test1' , 1 , '1996-01-02' , 'Adrian', 'Dorshock' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ), 
+('test2@test.de','test2' , 1 , '1997-01-02' , 'Adr', 'Dor' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ),
+('test3@test.de','test3' , 1 , '1998-01-02' , 'Alexander', 'Schultes' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ),
+('test4@test.de','test4' , 1 , '1999-01-02' , 'Ale', 'Sch' , 'asdjaowdp23424' , '68g3r7bhdixan' , Null );
 
 
-DESCRIBE Raum;
+REPLACE INTO `Deklarationen` (`Zeichen`, `Beschriftung`) VALUES
+	('2', 'Konservierungsstoff'),
+	('3', 'Antioxidationsmittel'),
+	('4', 'Geschmacksverstärker'),
+	('5', 'geschwefelt'),
+	('6', 'geschwärzt'),
+	('7', 'gewachst'),
+	('8', 'Phosphat'),
+	('9', 'Süßungsmittel'),
+	('10', 'enthält eine Phenylalaninquelle'),
+	('A', 'Gluten'),
+	('A1', 'Weizen'),
+	('A2', 'Roggen'),
+	('A3', 'Gerste'),
+	('A4', 'Hafer'),
+	('A5', 'Dinkel'),
+	('B', 'Sellerie'),
+	('C', 'Krebstiere'),
+	('D', 'Eier'),
+	('E', 'Fische'),
+	('F', 'Erdnüsse'),
+	('G', 'Sojabohnen'),
+	('H', 'Milch'),
+	('I', 'Schalenfrüchte'),
+	('I1', 'Mandeln'),
+	('I2', 'Haselnüsse'),
+	('I3', 'Walnüsse'),
+	('I4', 'Kaschunüsse'),
+	('I5', 'Pecannüsse'),
+	('I6', 'Paranüsse'),
+	('I7', 'Pistazien'),
+	('I8', 'Macadamianüsse'),
+	('J', 'Senf'),
+	('K', 'Sesamsamen'),
+	('L', 'Schwefeldioxid oder Sulfite'),
+	('M', 'Lupinen'),
+	('N', 'Weichtiere')
+;
+
+REPLACE INTO `Zutaten` (`ID`, `Name`, `Bio`, `Vegan`, `Vegetarisch`, `Glutenfrei`) VALUES
+	(10080, 'Aal', 0, 0, 0, 1),
+	(10081, 'Forelle', 0, 0, 0, 1),
+	(10082, 'Barsch', 0, 0, 0, 1),
+	(10083, 'Lachs', 0, 0, 0, 1),
+	(10084, 'Lachs', 1, 0, 0, 1),
+	(10085, 'Heilbutt', 0, 0, 0, 1),
+	(10086, 'Heilbutt', 1, 0, 0, 1),
+	(10100, 'Kurkumin', 1, 1, 1, 1),
+	(10101, 'Riboflavin', 0, 1, 1, 1),
+	(10123, 'Amaranth', 1, 1, 1, 1),
+	(10150, 'Zuckerkulör', 0, 1, 1, 1),
+	(10171, 'Titandioxid', 0, 1, 1, 1),
+	(10220, 'Schwefeldioxid', 0, 1, 1, 1),
+	(10270, 'Milchsäure', 0, 1, 1, 1),
+	(10322, 'Lecithin', 0, 1, 1, 1),
+	(10330, 'Zitronensäure', 1, 1, 1, 1),
+	(10999, 'Weizenmehl', 1, 1, 1, 0),
+	(11000, 'Weizenmehl', 0, 1, 1, 0),
+	(11001, 'Hanfmehl', 1, 1, 1, 1),
+	(11010, 'Zucker', 0, 1, 1, 1),
+	(11013, 'Traubenzucker', 0, 1, 1, 1),
+	(11015, 'Branntweinessig', 0, 1, 1, 1),
+	(12019, 'Karotten', 0, 1, 1, 1),
+	(12020, 'Champignons', 0, 1, 1, 1),
+	(12101, 'Schweinefleisch', 0, 0, 0, 1),
+	(12102, 'Speck', 0, 0, 0, 1),
+	(12103, 'Alginat', 0, 1, 1, 1),
+	(12105, 'Paprika', 0, 1, 1, 1),
+	(12107, 'Fenchel', 0, 1, 1, 1),
+	(12108, 'Sellerie', 0, 1, 1, 1),
+	(19020, 'Champignons', 1, 1, 1, 1),
+	(19105, 'Paprika', 1, 1, 1, 1),
+	(19107, 'Fenchel', 1, 1, 1, 1),
+	(19110, 'Sojasprossen', 1, 1, 1, 1)
+;
+
+
+-- Im ER-Diagramm fehlt noch das Attribut Adresse, 
+-- das Sie per ALTER TABLE einfach hinzufügen können
+-- sobald Sie an den Punkt kommen ;)
+
+REPLACE INTO `Fachbereiche` (`ID`, `Name`, `Website`, `Adresse`) VALUES
+	(1, 'Architektur', 'https://www.fh-aachen.de/fachbereiche/architektur/', 'Bayernallee 9, 52066 Aachen'),
+	(2, 'Bauingenieurwesen', 'https://www.fh-aachen.de/fachbereiche/bauingenieurwesen/', 'Bayernallee 9, 52066 Aachen'),
+	(3, 'Chemie und Biotechnologie', 'https://www.fh-aachen.de/fachbereiche/chemieundbiotechnologie/', 'Heinrich-Mußmann-Straße 1, 52428 Jülich'),
+	(4, 'Gestaltung', 'https://www.fh-aachen.de/fachbereiche/gestaltung/', 'Boxgraben 100, 52064 Aachen'),
+	(5, 'Elektrotechnik und Informationstechnik', 'https://www.fh-aachen.de/fachbereiche/elektrotechnik-und-informationstechnik/', 'Eupener Straße 70, 52066 Aachen'),
+	(6, 'Luft- und Raumfahrttechnik', 'https://www.fh-aachen.de/fachbereiche/luft-und-raumfahrttechnik/', 'Hohenstaufenallee 6, 52064 Aachen'),
+	(7, 'Wirtschaftswissenschaften', 'https://www.fh-aachen.de/fachbereiche/wirtschaft/', 'Eupener Straße 70, 52066 Aachen'),
+	(8, 'Maschinenbau und Mechatronik', 'https://www.fh-aachen.de/fachbereiche/maschinenbau-und-mechatronik/', 'Goethestraße 1, 52064 Aachen'),
+	(9, 'Medizintechnik und Technomathematik', 'https://www.fh-aachen.de/fachbereiche/medizintechnik-und-technomathematik/', 'Heinrich-Mußmann-Straße 1, 52428 Jülich'),
+	(10, 'Energietechnik', 'https://www.fh-aachen.de/fachbereiche/energietechnik/', 'Heinrich-Mußmann-Straße 1, 52428 Jülich')
+;
+
+
+
+
+
