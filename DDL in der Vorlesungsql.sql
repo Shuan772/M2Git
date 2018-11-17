@@ -39,13 +39,13 @@ CREATE TABLE Zutaten (
 	Vegan BOOL NOT NULL DEFAULT 0,
 	Vegetarisch BOOL NOT NULL DEFAULT 0,
 	Glutenfrei BOOL NOT NULL DEFAULT 0,
-	Name VARCHAR(255) NOT NULL
+	Name VARCHAR(30) NOT NULL -- e
 );
 
 CREATE TABLE Bilder(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	`Alt-Text` VARCHAR(255) NOT NULL,
-	Titel VARCHAR(255) ,
+	`Alt-Text` VARCHAR(50) NOT NULL, -- ein alt ist eigentlich immer kurz und knackig
+	Titel VARCHAR(50) , -- Genauso der Titel
 	`Binärdaten` BLOB NOT NULL
 );
 
@@ -56,25 +56,25 @@ CREATE TABLE Deklarationen(
 
 CREATE TABLE Fachbereiche(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Website VARCHAR(255) NOT NULL,
-	Name VARCHAR(255) NOT NULL,
-	Adresse VARCHAR(255)
+	Website VARCHAR(100) NOT NULL,
+	Name VARCHAR(50) NOT NULL,
+	Adresse VARCHAR(100)
 );
 
 CREATE TABLE Benutzer(
 	Nummer INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	`E-Mail` VARCHAR(255) UNIQUE NOT NULL,
+	`E-Mail` VARCHAR(100) UNIQUE NOT NULL,
 	LetzterLogin Datetime DEFAULT NULL,
-	Nutzername VARCHAR(255)UNIQUE NOT NULL,
+	Nutzername VARCHAR(30)UNIQUE NOT NULL,
 	Geburtsdatum Date,
 	Aktiv BOOL NOT NULL,
 	Anlegedatum Date NOT NULL,
 	`Alter` INT, -- Berechnet
-	Vorname VARCHAR(100) NOT NULL,
-	Nachname VARCHAR(100) NOT NULL,
+	Vorname VARCHAR(50) NOT NULL,
+	Nachname VARCHAR(25) NOT NULL,
 	Salt VARCHAR(32) NOT NULL,
 	`Hash` VARCHAR(24) NOT NULL,
-	ISA ENUM("Gast", "FHAngehörige")
+	ISA ENUM("Gast", "FHAngehörige") NOT NULL
 );
 -- andere
 
@@ -90,14 +90,14 @@ CREATE TABLE Bestellungen(
 
 CREATE TABLE `FHAngehörige`(
 	ID INT UNSIGNED PRIMARY KEY,
-	FOREIGN KEY (ID) REFERENCES Benutzer(Nummer)
+	CONSTRAINT `BenutzerDelFHA` FOREIGN KEY (ID) REFERENCES Benutzer(Nummer) ON DELETE CASCADE
 	-- beziehung zu Benutzer
 );
 CREATE TABLE Gäste(
 	Grund VARCHAR(255),
 	Ablaufdatum Date,
 	ID INT UNSIGNED PRIMARY KEY,
-	FOREIGN KEY (ID) REFERENCES Benutzer(Nummer)
+	CONSTRAINT `BenutzerDelGast` FOREIGN KEY (ID) REFERENCES Benutzer(Nummer) ON DELETE CASCADE
 	-- beziehung zu Benutzer
 );
 CREATE TABLE Mitarbeiter(
@@ -105,7 +105,7 @@ CREATE TABLE Mitarbeiter(
 	Telefon VARCHAR(20) ,
 	Büro VARCHAR(20),
 	`FHAngehörige` INT UNSIGNED UNIQUE,
-	FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID)
+	CONSTRAINT `BenutzerDelMA` FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID) ON DELETE CASCADE
 
 );
 CREATE TABLE Student(
@@ -113,12 +113,12 @@ CREATE TABLE Student(
 	Matrikelnummer INT UNSIGNED UNIQUE NOT NULL CHECK( Matrikelnummer BETWEEN 9999999 AND 1000000000),
 	Studiengang ENUM ("ET", "INF", "ISE", "MCD", "WI") NOT NULL DEFAULT "INF",
 	`FHAngehörige` INT UNSIGNED UNIQUE,
-	FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID)
+	CONSTRAINT `BenutzerDelStu` FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE Kategorien(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Bezeichnung VARCHAR(255) NOT NULL,
+	Bezeichnung VARCHAR(25) NOT NULL,
 	Bild INT UNSIGNED,
 	Kategorie INT UNSIGNED,
 	CONSTRAINT `BildDel`
@@ -135,13 +135,11 @@ CREATE TABLE Kategorien(
 CREATE TABLE Mahlzeiten(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	Vorrat INT UNSIGNED NOT NULL DEFAULT 0,
-	Beschreibung VARCHAR(255) NOT NULL,
+	Beschreibung VARCHAR(50) NOT NULL,
 	Kategorie INT UNSIGNED,
 	FOREIGN KEY (Kategorie) REFERENCES Kategorien(ID),
 	Verfügbar BOOL, -- Berechnet.
-	PreisID INT UNSIGNED,
 	PreisJahr year
-	-- 	FOREIGN KEY ( PreisID , PreisJahr) REFERENCES Preise(Mahlzeit , Jahr)-- eins zu eins bezieheung mit Preis 
 );
 
 CREATE TABLE Preise(
@@ -159,7 +157,7 @@ CREATE TABLE Preise(
 CREATE TABLE Kommentare(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	Bemerkung VARCHAR(255),
-	Bewertung INT NOT NULL ,
+	Bewertung DOUBLE(1,1) NOT NULL ,
 	Mahlzeiten INT UNSIGNED,
 	Student INT UNSIGNED NOT NULL,
 	FOREIGN KEY (Student) REFERENCES Student(ID),
@@ -319,8 +317,20 @@ REPLACE INTO `Fachbereiche` (`ID`, `Name`, `Website`, `Adresse`) VALUES
 	(9, 'Medizintechnik und Technomathematik', 'https://www.fh-aachen.de/fachbereiche/medizintechnik-und-technomathematik/', 'Heinrich-Mußmann-Straße 1, 52428 Jülich'),
 	(10, 'Energietechnik', 'https://www.fh-aachen.de/fachbereiche/energietechnik/', 'Heinrich-Mußmann-Straße 1, 52428 Jülich')
 ;
+REPLACE INTO `FHAngehörige` (`ID`) VALUES
+(1),
+(2),
+(3);
 
+REPLACE INTO `Student` (Matrikelnummer, Studiengang , `FHAngehörige`) VALUES
+(30338369 , "INF" , 3),
+(30335859 , "INF" , 1);
 
+REPLACE INTO `Mitarbeiter` (Büro, Telefon , `FHAngehörige`) VALUES
+("E203" , "08054646" , 3);
 
+DELETE FROM `Benutzer` WHERE Nummer = 4;
 
+ALTER TABLE Mahlzeiten 
+FOREIGN KEY (PreisJahr) REFERENCES Preise(Jahr);-- eins zu eins bezieheung mit Preis 
 
