@@ -1,85 +1,13 @@
 ﻿@{
     Page.Title = "Detail";
     Layout = "~/M2Git/_Layout.cshtml";
+    //string id = Request.QueryString["id"];
+    string id = "1";
 }
 
-<div>
-    <div class="row">
-        <div class="offset-3 col-6">
-            <h1>
-                Details für "Falafel"
-            </h1>
-        </div>
-        <div class="col-3">
-            <h2 style="text-align:right">
-                <b>Gast</b>-Preis
-            </h2>
-        </div>
-    </div>
+<div lass="row">
+    @DetailHelper.ProdukteDetail(id)
 
-    <div class="row">
-        <div class="col-3">
-            <fieldset class="border align-content-center">
-                <legend class="scheduler-border">Login</legend>
-                <div class="container center_div">
-                    <input type="text" placeholder="Benutzer">
-                    <input type="password" placeholder="password">
-                    <a href="#"><u>Anmelden</u></a>
-                </div>
-            </fieldset>
-        </div>
-        <div class="col-6">
-            <div class="card" style="width: 34rem;">
-                <img class="card-img-top" src="/M2Git/Pics/falafel.jpg" alt="Falafel">
-            </div>
-        </div>
-        <div class="col-3">
-            <h2 style="text-align:right">5,95€</h2>
-            <button type="button" style="align-self:auto"><i class="fas fa-utensils"></i>Vorbestellen</button>
-        </div>
 
-        <div class="row">
-            <div class="col-3">
-                <p>Melden Sie sich jetzt an, um die wirklich viel günstigeren Preise für Mitarbeiter oder Studenten zu sehen.</p>
-            </div>
-            <div class="col-6">
-                <div class="tabs">
-                    <div class="tab ">
-                        <input type="radio" id="tab-1" name="tab-group-1" checked>
-                        <label for="tab-1">Beschreibung</label>
-                        <div class="content">
-                            <p>Teigtaschen mit Falafel aus Kichererbsen und Sesam, dazu passt hervorragend der <a href="#"><u>Krautsalat</u></a></p>
-                        </div>
-                    </div>
-                    <div class="tab">
-                        <input type="radio" id="tab-2" name="tab-group-1">
-                        <label for="tab-2">Zutaten</label>
-                        <div class="content">
-                            <p>Kichererbsen , Sesam</p>
-                        </div>
-                    </div>
-                    <div class="tab">
-                        <input type="radio" id="tab-3" name="tab-group-1">
-                        <label for="tab-3">Bewertungen</label>
-                        <div class="content">
-                            <p>7 von 10 Sternen</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3">
-                <form action="http://bc5.m2c-lab.fh-aachen.de/form.php" method="post">
-                    <textarea placeholder="Bemerkung" name="bemerkung"></textarea>
-                    <input type="text" name="benutzer" placeholder="Name">
-                    <input type="number" name="bewertung" placeholder="5" min="1" max="5">
-                    <input type="hidden" name="matrikel" value="3033858">
-                    <input type="hidden" name="kontrolle" value="dor" />
-                    <button type="submit" name="action">Abschicken</button>
-                </form>
-            </div>
-        </div>
 
-    </div>
-    <div class="row">
-    </div>
-</div>
+</div >

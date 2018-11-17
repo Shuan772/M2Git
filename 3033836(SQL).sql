@@ -135,7 +135,8 @@ CREATE TABLE Kategorien(
 CREATE TABLE Mahlzeiten(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	Vorrat INT UNSIGNED NOT NULL DEFAULT 0,
-	Beschreibung VARCHAR(50) NOT NULL,
+	Beschreibung VARCHAR(255) NOT NULL,
+	Name VARCHAR(20) NOT NULL,
 	Kategorie INT UNSIGNED,
 	FOREIGN KEY (Kategorie) REFERENCES Kategorien(ID),
 	Verfügbar BOOL, -- Berechnet.
@@ -221,7 +222,7 @@ VALUES
 ('test1@test.de','test1' , 1 , '1996-01-02' , 'Adrian', 'Dorshock' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ), 
 ('test2@test.de','test2' , 1 , '1997-01-02' , 'Adr', 'Dor' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ),
 ('test3@test.de','test3' , 1 , '1998-01-02' , 'Alexander', 'Schultes' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ),
-('test4@test.de','test4' , 1 , '1999-01-02' , 'Ale', 'Sch' , 'asdjaowdp23424' , '68g3r7bhdixan' , Null );
+('test4@test.de','test4' , 1 , '1999-01-02' , 'Ale', 'Sch' , 'asdjaowdp23424' , '68g3r7bhdixan' , "Gast" );
 
 
 REPLACE INTO `Deklarationen` (`Zeichen`, `Beschriftung`) VALUES
@@ -331,6 +332,6 @@ REPLACE INTO `Mitarbeiter` (Büro, Telefon , `FHAngehörige`) VALUES
 
 DELETE FROM `Benutzer` WHERE Nummer = 4;
 
-ALTER TABLE Mahlzeiten 
-FOREIGN KEY (PreisJahr) REFERENCES Preise(Jahr);-- eins zu eins bezieheung mit Preis 
+-- ALTER TABLE Mahlzeiten 
+-- FOREIGN KEY (PreisJahr) REFERENCES Preise(Jahr);-- eins zu eins bezieheung mit Preis 
 
