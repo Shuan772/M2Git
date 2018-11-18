@@ -1,21 +1,22 @@
 ﻿@using MySql.Data.MySqlClient
 @helper ProdukteGallery()
 {
-    try
-    {
-        MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Datenbank;");
+try
+{
+    MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Datenbank;");
 
-        // hier öffnen Sie die Verbindung zu, DBMS
-        con.Open();
+    // hier öffnen Sie die Verbindung zu, DBMS
+    con.Open();
+    int zaehler = 1;
 
-        // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
-        string query = "SELECT * FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder LIMIT 8;";
-        // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
-        MySqlCommand command = new MySqlCommand(query, con);
+    // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
+    string query = "SELECT * FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder LIMIT 8;";
+    // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
+    MySqlCommand command = new MySqlCommand(query, con);
 
-        // SQL Befehl absetzen und direkt in "reader" speichern
-        MySqlDataReader reader = command.ExecuteReader();
-        //Prdoukte link bsp string Href= "/M2Git/Produkte.cshtml?id=" + @name;
+    // SQL Befehl absetzen und direkt in "reader" speichern
+    MySqlDataReader reader = command.ExecuteReader();
+    //Prdoukte link bsp string Href= "/M2Git/Produkte.cshtml?id=" + @name;
 
         <div class="col-4">
 
@@ -41,13 +42,33 @@
             </form>
         </div>
         <div class="col-8">
-            @{
-                while (reader.Read())
+            <div class="row">
+                
+                    @while (reader.Read())
+                    {
+                    @ProduktKarte(reader)
+                        zaehler++;
+                        if (zaehler == 5)
+                        {
+                            break;
+                        }
+                    }
+
+                </div>
+            <div class="row">
+
+                @while (reader.Read())
                 {
                     @ProduktKarte(reader)
+                    zaehler++;
+                    if (zaehler == 5)
+                    {
+                        break;
+                    }
                 }
-            }
-        </div>
+                </div>        
+            </div>
+ 
 
     }
     catch (Exception ex)

@@ -148,10 +148,12 @@ nav a.last { border-right: 0 solid black;}
 nav li:last-child a { border-right: 0 solid black;}
 
 .card {
-    width:10rem;
+    /**width:10rem;*/
 }
 
 .card-img-top {
-    height: 134px;
+    /**
+        height: 134px;
     width: auto;
+        */
 }

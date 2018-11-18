@@ -6,12 +6,12 @@
     try
     {
         MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Datenbank;");
-
+        string message = Request.QueryString["id"];
         // hier öffnen Sie die Verbindung zu, DBMS
         con.Open();
-        string URLid = Request.QueryString["id"];
+
         // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
-        string query = "SELECT * FROM Mahlzeiten mahl JOIN MahlzeitenXBilder mxb ON mahl.ID = mxb.Mahlzeiten JOIN Bilder bild ON bild.ID = mxb.Bilder JOIN preise preis ON preis.MahlzeitenID = mahl.ID WHERE mahl.ID = " + URLid + ";";
+        string query = "SELECT * FROM Mahlzeiten mahl JOIN MahlzeitenXBilder mxb ON mahl.ID = mxb.Mahlzeiten JOIN Bilder bild ON bild.ID = mxb.Bilder JOIN preise preis ON preis.MahlzeitenID = mahl.ID WHERE mahl.ID = " + id + ";";
         // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
         MySqlCommand command = new MySqlCommand(query, con);
 
@@ -19,11 +19,11 @@
         MySqlDataReader reader = command.ExecuteReader();
         //Prdoukte link bsp string Href= "/M2Git/Produkte.cshtml?id=" + @name;
         //rest holen
-        @reader.Read()
+        reader.Read();
         var base64 = Convert.ToBase64String((byte[])reader["Binärdaten"]);
         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
 
-        <div>
+        <div class="row">
             <div class="offset-3 col-6">
                 <h1>
                     Details für @reader["Name"]
@@ -48,7 +48,8 @@
                 </fieldset>
             </div>
             <div class="col-6">
-                <div class="card" style="width: 34rem;">
+                <!--<div class="card" style="width: 34rem;">-->
+                <div class="card">
                     <img class="card-img-top" src="@imgSrc" alt="@reader["Alt-text"]">
                 </div>
             </div>
@@ -106,9 +107,26 @@
     catch (Exception ex)
     {
         <p class="danger">
-            <br />Es wurde kein Eintrag zu diesem Produkt gefunden.
-            @ex.Message
+            <br />404 Produkt not found.
         </p>
+      
     }
 
+}
+@helper check(string id)
+{
+try
+{
+    MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Datenbank;");
+    con.Open();
+    string URLid = Request.QueryString["id"];
+    string query = "SELECT * FROM Mahlzeiten mahl JOIN MahlzeitenXBilder mxb ON mahl.ID = mxb.Mahlzeiten JOIN Bilder bild ON bild.ID = mxb.Bilder JOIN preise preis ON preis.MahlzeitenID = mahl.ID WHERE mahl.ID = " + URLid + ";";
+    MySqlCommand command = new MySqlCommand(query, con);
+    MySqlDataReader reader = command.ExecuteReader();
+    reader.Read();
+}
+catch (Exception ex)
+{
+    <meta http-equiv="refresh" content="3;url=http://localhost:52328/M2Git/Produkte.cshtml" />
+    }
 }

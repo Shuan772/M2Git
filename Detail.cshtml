@@ -1,12 +1,15 @@
-﻿﻿@{
+﻿@using MySql.Data.MySqlClient
+@{
     Page.Title = "Detail";
     Layout = "~/M2Git/_Layout.cshtml";
-    //string id = Request.QueryString["id"];
-    string id = "1";
+    string id = Request.QueryString["id"];
 
 }
+@section head{
+        @DetailHelper.check(id)
+}
+@DetailHelper.ProdukteDetail(id)
 
-<div lass="row">
-    @DetailHelper.ProdukteDetail(id)
-</div>
+
+
 
