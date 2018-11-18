@@ -69,7 +69,7 @@ CREATE TABLE Benutzer(
 	Geburtsdatum Date,
 	Aktiv BOOL NOT NULL,
 	Anlegedatum Date NOT NULL,
-	`Alter` INT, -- Berechnet
+	`Alter` INT UNSIGNED AS (DATEDIFF(CURRENT_DATE,Geburtsdatum)/365),
 	Vorname VARCHAR(50) NOT NULL,
 	Nachname VARCHAR(25) NOT NULL,
 	Salt VARCHAR(32) NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE Bestellungen(
 	Abholzeitpunkt Datetime,
 	Benutzer INT UNSIGNED,
 	FOREIGN KEY (Benutzer) REFERENCES Benutzer(Nummer),
-	Endpreis DOUBLE(2,2) -- Berechnet
+	Endpreis DOUBLE(4,2) -- Berechnet
 	
 );
 
@@ -101,19 +101,17 @@ CREATE TABLE Gäste(
 	-- beziehung zu Benutzer
 );
 CREATE TABLE Mitarbeiter(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	ID INT UNSIGNED PRIMARY KEY ,
 	Telefon VARCHAR(20) ,
 	Büro VARCHAR(20),
-	`FHAngehörige` INT UNSIGNED UNIQUE,
-	CONSTRAINT `BenutzerDelMA` FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID) ON DELETE CASCADE
+	CONSTRAINT `BenutzerDelMA` FOREIGN KEY (ID) REFERENCES `FHAngehörige`(ID) ON DELETE CASCADE
 
 );
 CREATE TABLE Student(
-	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	ID INT UNSIGNED PRIMARY KEY ,
 	Matrikelnummer INT UNSIGNED UNIQUE NOT NULL CHECK( Matrikelnummer BETWEEN 9999999 AND 1000000000),
 	Studiengang ENUM ("ET", "INF", "ISE", "MCD", "WI") NOT NULL DEFAULT "INF",
-	`FHAngehörige` INT UNSIGNED UNIQUE,
-	CONSTRAINT `BenutzerDelStu` FOREIGN KEY (`FHAngehörige`) REFERENCES `FHAngehörige`(ID) ON DELETE CASCADE
+	CONSTRAINT `BenutzerDelStu` FOREIGN KEY (ID) REFERENCES `FHAngehörige`(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE Kategorien(
@@ -139,20 +137,19 @@ CREATE TABLE Mahlzeiten(
 	Name VARCHAR(20) NOT NULL,
 	Kategorie INT UNSIGNED,
 	FOREIGN KEY (Kategorie) REFERENCES Kategorien(ID),
-	Verfügbar BOOL, -- Berechnet.
+	Verfügbar BOOL,
+	CHECK (Vorrat > 0),
 	PreisJahr year
 );
 
 CREATE TABLE Preise(
-	`MA-Preis` DOUBLE(2,2),
-	Studentpreis DOUBLE(2,2) ,
-	Gastpreis DOUBLE(2,2) NOT NULL,
-	Jahr year NOT NULL,	-- hilfs primary ?
-	Mahlzeit  INT UNSIGNED,
-	CONSTRAINT `PreisZuMahlzeitLöschen` 
-	FOREIGN KEY (Mahlzeit) 
-	REFERENCES Mahlzeiten(ID)
-	ON DELETE CASCADE 
+	`MA-Preis` DOUBLE(4,2),
+	Studentpreis DOUBLE(4,2) ,
+	Gastpreis DOUBLE(4,2) NOT NULL,
+	Jahr YEAR(4) UNSIGNED NOT NULL,								
+	MahlzeitenID INT(5) UNSIGNED,
+	FOREIGN KEY(MahlzeitenID) REFERENCES Mahlzeiten(ID) ON DELETE CASCADE,		-- 1:1 Beziehung - eine Mahlzeit hat einen Preis
+	PRIMARY KEY (MahlzeitenID, Jahr)
 );
 
 CREATE TABLE Kommentare(
