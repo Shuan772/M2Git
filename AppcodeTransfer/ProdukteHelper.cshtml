@@ -1,0 +1,73 @@
+﻿@using MySql.Data.MySqlClient
+@helper ProdukteGallery()
+{
+    try
+    {
+        MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Datenbank;");
+
+        // hier öffnen Sie die Verbindung zu, DBMS
+        con.Open();
+
+        // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
+        string query = "SELECT * FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder LIMIT 8;";
+        // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
+        MySqlCommand command = new MySqlCommand(query, con);
+
+        // SQL Befehl absetzen und direkt in "reader" speichern
+        MySqlDataReader reader = command.ExecuteReader();
+        //Prdoukte link bsp string Href= "/M2Git/Produkte.cshtml?id=" + @name;
+
+        <div class="col-4">
+
+            <form>
+                <fieldset class="border align-content-center">
+                    <legend class="scheduler-border">Speisenliste filtern</legend>
+                    <div class="container center_div">
+                        <input list="Kategorien">
+                        <datalist id="Kategorien">
+                            <option value="Kategorie1">
+                            <option value="Kategorie2">
+                            <option value="Kategorie3">
+                            <option value="Kategorie4">
+                            <option value="Kategorie5">
+                        </datalist>
+                        <br>
+                        <input type="checkbox"> nur verfügbare<br>
+                        <input type="checkbox"> nur vegetarische<br>
+                        <input type="checkbox"> nur vegane<br>
+                        <button type="button">Speisen Filtern</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-8">
+            @{
+                while (reader.Read())
+                {
+                    @ProduktKarte(reader)
+                }
+            }
+        </div>
+
+    }
+    catch (Exception ex)
+    {
+        <p class="danger">
+            <br />@ex.Message
+        </p>
+    }
+}
+
+@helper ProduktKarte(MySqlDataReader reader)
+{
+
+var base64 = Convert.ToBase64String((byte[])reader["Binärdaten"]);
+var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+    <div class="card">
+        <img class="card-img-top" src="@imgSrc" alt="@reader["Alt-text"]">
+        <div class="card-body">
+            <h5 class="card-title">@reader["Name"]</h5>
+            <a Href="/M2Git/Detail.cshtml?id=@reader["ID"]" class="btn btn-primary"><u>Details</u></a>
+        </div>
+    </div>
+}
