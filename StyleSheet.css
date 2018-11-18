@@ -153,4 +153,5 @@ nav li:last-child a { border-right: 0 solid black;}
 
 .card-img-top {
     height: 134px;
+    width: auto;
 }
