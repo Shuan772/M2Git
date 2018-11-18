@@ -330,6 +330,40 @@ REPLACE INTO `Student` (Matrikelnummer, Studiengang , `FHAngehörige`) VALUES
 REPLACE INTO `Mitarbeiter` (Büro, Telefon , `FHAngehörige`) VALUES
 ("E203" , "08054646" , 3);
 
+
+-- Adrians kram
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Curry Wok", "Curry Wok","1");
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Schnitzel", "Schnitzel","1");
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Bratrolle", "Bratrolle","1");
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Krautsalat", "Krautsalat","1");
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Falafel", "Falafel","1");
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Currywurst", "Currywurst","1");
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Käsestulle", "Käsestulle","1");
+INSERT INTO Mahlzeiten (`Beschreibung` , `Name`, `Vorrat`)
+VALUES("Beschreibung für Spiegelei", "Spiegelei","1");
+
+REPLACE INTO Preise(Gastpreis,Mahlzeit,Jahr)
+VALUES('3.50',1,2018),
+		('3.00',2,2018),
+		('2.50',3,2018),
+		('0.50',4,2018),
+		('3.50',5,2018),
+		('2.50',6,2018),
+		('1.50',7,2018),
+		('2.00',8,2018);
+		
+
+
+
+
+
 DELETE FROM `Benutzer` WHERE Nummer = 4;
 
 -- ALTER TABLE Mahlzeiten 
