@@ -80,8 +80,9 @@ CREATE TABLE Benutzer(
 
 CREATE TABLE Bestellungen(
 	Nummer INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Bestellzeitpunkt Datetime NOT NULL,
+	Bestellzeitpunkt Datetime NOT NULL DEFAULT NOW(),
 	Abholzeitpunkt Datetime,
+	CHECK (Abholzeitpunkt > Bestellzeitpunkt),
 	Benutzer INT UNSIGNED,
 	FOREIGN KEY (Benutzer) REFERENCES Benutzer(Nummer),
 	Endpreis DOUBLE(4,2) -- Berechnet
@@ -144,7 +145,8 @@ CREATE TABLE Mahlzeiten(
 
 CREATE TABLE Preise(
 	`MA-Preis` DOUBLE(4,2),
-	Studentpreis DOUBLE(4,2) ,
+	Studentpreis DOUBLE(4,2),
+	CHECK (Studentpreis < `MA-Preis`),
 	Gastpreis DOUBLE(4,2) NOT NULL,
 	Jahr YEAR(4) UNSIGNED NOT NULL,								
 	MahlzeitenID INT(5) UNSIGNED,
@@ -329,15 +331,19 @@ REPLACE INTO `Mitarbeiter` (Büro, Telefon , ID) VALUES
 
 
 -- Adrians kram
-INSERT INTO Mahlzeiten (ID,`Beschreibung` , `Name`, `Vorrat`)
-VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","1"),
-	(2,"Beschreibung für Schnitzel", "Schnitzel","1"),
-	(3,"Beschreibung für Bratrolle", "Bratrolle","1"),
-	(4,"Beschreibung für Krautsalat", "Krautsalat","1"),
-	(5,"Beschreibung für Falafel", "Falafel","1"),
-	(6,"Beschreibung für Currywurst", "Currywurst","1"),
-	(7,"Beschreibung für Käsestulle", "Käsestulle","1"),
-	(8,"Beschreibung für Spiegelei", "Spiegelei","1");
+INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Klassiker",1);
+INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Empfehlung",2);
+INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Suppe",3);
+
+INSERT INTO Mahlzeiten (ID,`Beschreibung` , `Name`, `Vorrat`,`Kategorie`)
+VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","1","1"),
+	(2,"Beschreibung für Schnitzel", "Schnitzel","1","2"),
+	(3,"Beschreibung für Bratrolle", "Bratrolle","1","2"),
+	(4,"Beschreibung für Krautsalat", "Krautsalat","1","1"),
+	(5,"Beschreibung für Falafel", "Falafel","1","3"),
+	(6,"Beschreibung für Currywurst", "Currywurst","1","3"),
+	(7,"Beschreibung für Käsestulle", "Käsestulle","1","3"),
+	(8,"Beschreibung für Spiegelei", "Spiegelei","1","1");
 
 REPLACE INTO Preise(Gastpreis,MahlzeitenID,Jahr)
 VALUES('3.50',1,2018),
@@ -370,7 +376,7 @@ INSERT INTO MahlzeitenXBilder(`Bilder`, `Mahlzeiten`) VALUES ('8', '8');
 
 
 
-DELETE FROM `Benutzer` WHERE Nummer = 4;
+DELETE FROM `Benutzer` WHERE Nummer = 3;
 
 -- ALTER TABLE Mahlzeiten 
 -- FOREIGN KEY (PreisJahr) REFERENCES Preise(Jahr);-- eins zu eins bezieheung mit Preis 
