@@ -171,9 +171,9 @@ CREATE TABLE Kommentare(
 CREATE TABLE ZutatenXMahlzeiten(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	Zutaten INT UNSIGNED NOT NULL,
-	Mahlzeit INT UNSIGNED NOT NULL,
-	FOREIGN KEY (Zutaten) REFERENCES Zutaten(ID)
-
+	Mahlzeiten INT UNSIGNED NOT NULL,
+	FOREIGN KEY (Zutaten) REFERENCES Zutaten(ID),
+	FOREIGN KEY (Mahlzeiten) REFERENCES Mahlzeiten(ID) -- Änderung
 );
 
 CREATE TABLE MahlzeitenXBilder(
