@@ -1,0 +1,21 @@
+﻿@using MySql.Data.MySqlClient
+@{
+    Page.Title = "Detail";
+    Layout = "~/M2Git/_Layout.cshtml";
+    string id = Request.QueryString["id"];
+
+}
+
+
+@DetailHelper.ProdukteDetail(id)
+
+
+ @section head
+{
+    <div> <a> TEST</a></div>
+}
+
+
+
+
+

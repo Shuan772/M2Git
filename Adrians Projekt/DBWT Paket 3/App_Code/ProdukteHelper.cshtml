@@ -1,0 +1,122 @@
+﻿@using MySql.Data.MySqlClient
+@helper ProdukteGallery()
+{
+try
+{
+    MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=datenbank;");
+
+    // hier öffnen Sie die Verbindung zu, DBMS
+    con.Open();
+    int zaehler = 1;
+    string query, querykat;
+    string urlbez = Request.QueryString["bez"];
+    if (urlbez == null)
+    {
+
+
+        query = "SELECT * FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder LIMIT 8;";
+
+    }
+    else {
+
+        query = "SELECT * FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder join Kategorien kat on mahl.Kategorie = kat.ID WHERE kat.Bezeichnung ='" + urlbez + "' LIMIT 8;";
+    }
+
+    querykat = "SELECT * FROM Kategorien";
+
+    // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
+    // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
+
+    MySqlCommand commandkat = new MySqlCommand(querykat, con);
+
+    // SQL Befehl absetzen und direkt in "reader" speichern
+
+    MySqlDataReader readerkat = commandkat.ExecuteReader();
+    //Prdoukte link bsp string Href= "/M2Git/Produkte.cshtml?id=" + @name;
+
+
+        <div class="col-4">
+
+            <form method="get" action="/M2Git/Produkte.cshtml">
+                <fieldset class="border align-content-center">
+                    <legend class="scheduler-border">Speisenliste filtern</legend>
+                    <div class="container center_div">
+                        <input type="search" name="bez" list="Kategorien">
+                        <datalist id="Kategorien">
+                            @while (readerkat.Read())
+                            {
+                               <option value="@readerkat["Bezeichnung"]">@readerkat["Bezeichnung"]</option>
+                            }
+                            @{
+                                con.Close();
+                            }
+                        </datalist>
+                        <br>
+                        <input type="checkbox"> nur verfügbare<br>
+                        <input type="checkbox"> nur vegetarische<br>
+                        <input type="checkbox"> nur vegane<br>
+                        <button type="submit">Speisen Filtern</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                    @{ con.Open();
+                        MySqlCommand command = new MySqlCommand(query, con);
+                        MySqlDataReader reader = command.ExecuteReader();
+                        //
+                        }
+                    @while (reader.Read())
+                    {
+                    @ProduktKarte(reader)
+                        zaehler++;
+                        if (zaehler == 5)
+                        {
+                            break;
+                        }
+                    }
+                
+
+
+            </div>
+            <div class="row">
+
+                @while (reader.Read())
+                {
+                    @ProduktKarte(reader)
+                    zaehler++;
+                    if (zaehler == 5)
+                    {
+                        break;
+                    }
+                }
+                @{
+                    con.Close();
+                }
+            </div>
+        </div>
+
+
+}
+catch (Exception ex)
+{
+        <p class="danger">
+            <br />@ex.Message
+        </p>
+}
+}
+
+@helper ProduktKarte(MySqlDataReader reader)
+{
+
+var base64 = Convert.ToBase64String((byte[])reader["Binärdaten"]);
+var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+    <div class="card">
+        <img class="card-img-top card-product-display"   src="@imgSrc" alt="@reader["Alt-text"]">
+        <div class="card-body">
+            <h5 class="card-title">@reader["Name"]</h5>
+            <a Href="/M2Git/Detail.cshtml?id=@reader["ID"]" class="btn btn-primary"><u>Details</u></a>
+        </div>
+    </div>
+}

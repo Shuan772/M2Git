@@ -1,0 +1,48 @@
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\ApplicationInsights.config
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\csc.exe
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\Microsoft.CodeAnalysis.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\Microsoft.CSharp.Core.targets
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\Microsoft.VisualBasic.Core.targets
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\System.Collections.Immutable.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\System.Reflection.Metadata.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\vbc.exe
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\VBCSCompiler.exe
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\roslyn\VBCSCompiler.exe.config
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\DBWT Paket 3.dll.config
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\DBWT Paket 3.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\DBWT Paket 3.pdb
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Google.Protobuf.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.Agent.Intercept.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.DependencyCollector.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.PerfCounterCollector.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.ServerTelemetryChannel.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.Web.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.WindowsServer.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.ApplicationInsights.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.Web.Infrastructure.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\MySql.Data.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.Helpers.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.Razor.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.WebPages.Deployment.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.WebPages.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.WebPages.Razor.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Google.Protobuf.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.DependencyCollector.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.ServerTelemetryChannel.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.Web.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.AI.WindowsServer.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.ApplicationInsights.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\MySql.Data.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.Helpers.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.Razor.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.WebPages.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.WebPages.Deployment.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\bin\System.Web.WebPages.Razor.xml
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\obj\Debug\DBWT Paket 3.csprojResolveAssemblyReference.cache
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\obj\Debug\DBWT Paket 3.dll
+c:\users\dorshock\documents\visual studio 2015\Projects\DBWT Paket 3\DBWT Paket 3\obj\Debug\DBWT Paket 3.pdb
