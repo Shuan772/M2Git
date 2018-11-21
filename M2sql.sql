@@ -174,6 +174,7 @@ CREATE TABLE ZutatenXMahlzeiten(
 	Mahlzeiten INT UNSIGNED NOT NULL,
 	FOREIGN KEY (Zutaten) REFERENCES Zutaten(ID),
 	FOREIGN KEY (Mahlzeiten) REFERENCES Mahlzeiten(ID) -- Änderung
+
 );
 
 CREATE TABLE MahlzeitenXBilder(
@@ -344,7 +345,6 @@ VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","1","1"),
 	(6,"Beschreibung für Currywurst", "Currywurst","1","3"),
 	(7,"Beschreibung für Käsestulle", "Käsestulle","1","3"),
 	(8,"Beschreibung für Spiegelei", "Spiegelei","1","1");
-
 REPLACE INTO Preise(Gastpreis,MahlzeitenID,Jahr)
 VALUES('3.50',1,2018),
 		('3.00',2,2018),
