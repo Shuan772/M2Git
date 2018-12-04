@@ -1,0 +1,94 @@
+Alle zum Browser ausgelieferten HTML Dokumente sind valide
+Die Seite Produkte.cshtml liefert die dynamische Produktliste 
+Die Seite Detail.cshtml liefert sowohl den Namen, die Beschreibung, den Gäste-Preis und das Bild aus der Datenbank
+Die Seite Detail.cshtml fängt fehlerhafte/nicht existierende IDs ab und leitet client-seitig nach 3s auf Start.cshtml um
+Alle MySqlCommand Queries in Ihrer Software wählen die tatsächlich benötigten Attribute aus den Tabellen aus und nutzen nicht *
+Geöffnete Verbindungen zum DBMS werden nach Gebrauch bzw.im Fehlerfall geschlossen
+Sie nutzen nicht den root-User für die Verbindung und die Verbindungsdetails sind zentral in der Web.config zu finden
+Sie haben der Tabelle Mahlzeiten das fehlende Attribut Name hinzugefügt, um Beschreibung und Namen eines Produkts zu trennen. (ALTER TABLE).
+
+4.1 Produkte
+Produkte Seite Formular speisen filter aktivieren.
+TODO: warum die HTTP art gewählt wurde?
+//ebenen an kategorien ??? --> man soll nicht auswählbare Oberkategorien erstellen und normale unterkategorien.
+das Dropdown per <Select> <OPTGROUP> und <Option> machen
++Option alle anzeigen lassen.
+Prüfen ob speise verfügbar falls nicht grau
+Auf der Gefilterten seite Kategorie im Dropdown ausgewählt.
+Checkboxen aktivieren.
+
+4.2 Login
+Daten in Session SPeichern
+Session["user"] = "dbwt"; // Diese Daten sollen aus
+Session["role"] = "Student"; // der Datenbank kommen
+
+test ob variable gesetzt 
+if (!string.IsNullOrEmpty(Session["user"] as string))
+{ … }
+
+Legen Sie eine neue Seite Login.cshtml an, die das gleiche
+Formular auch zeigen kann. Diese Seite ist auch Ziel der Action
+aller Login-Formulare.
+
+Prüfen Sie in der Login.cshtml, ob Sie POST-Parameter erhalten
+(die für den Benutzer und das Passwort) und prüfen Sie in dem
+Fall, ob die zugehörigen Auth-Informationen korrekt sind (siehe
+PBKDF2 Folie).
+
+Stimmen die Daten überein, legen Sie die Session an (also user
+und role). Danach zeigen Sie nicht mehr das Login-Formular,
+sondern nur noch einen Logout-Button, siehe folgende Folie.
+
+Zeigen Sie einem angemeldeten Benutzer auf der Login-Seite
+seinen Namen, die Rolle und eine Abmeldemöglichkeit an.
+
+Legen Sie die SQL-Query zum Ermitteln der Rolle für einen
+bestimmten Benutzer als View [5] oder StoredProcedure [6][7] an.
+
+[5] VIEWs in MariaDB anlegen
+https://mariadb.com/kb/en/library/create-view/
+[6] Stored Procedures in MariaDB
+https://mariadb.com/kb/en/library/stored-procedure-overview/
+[7] Stored Procedures in C#/MySql.Data aufrufen
+https://dev.mysql.com/doc/connector-net/en/connector-net-programming-stored-using.html
+
+Testen Sie die Query zuvor in HeidiSQL und verfeinern Sie sie
+dahingehend, dass Ihre Anwendung nur noch die Rolle erfragt.
+
+Da es um einen Benutzer und genau eine Rolle geht, nutzen Sie
+ExecuteScalar bzw. ExecuteNonQuery und lassen sich den Rollenwert
+direkt zurückgeben.
+Beispiel:
+• Meldet sich ein Student mit der Nummer 8 an, könnte die View
+bereits "Student" zurückgeben.
+• Meldet sich ein Mitarbeiter mit der Nummer 23 an, könnte die View
+direkt "Mitarbeiter" zurückgeben.
+SELECT Rolle FROM Nutzerrolle WHERE Nummer = 8;
+ "Student"
+
+Beschreiben Sie im Dossier, …
+… weshalb Sie plötzlich einen Cookie gesetzt bekommen nachdem Sie Werte
+in die Session schreiben. Lassen Sie sich den Cookie einmal anzeigen im
+Browser (Entwickler-Tools).
+Erklären Sie die Situation auf Serverseite, wenn Sie den Cookie löschen und
+einen weiteren Request absenden.
+Recherchieren Sie, wie eine Anmeldung auch ohne Verwendung von Cookies
+realisiert werden könnte.
+Notieren Sie, wie die Stored Procedure aussieht, die Ihnen den korrekten
+Preis zu einer genannten Nutzer-Nummer und einer Mahlzeiten-ID zurückgibt.
+(oder verwenden Sie sie direkt in der Anwendung)
+Beschreiben Sie, was die Information sha1:64000:18 zu Beginn eines HashStrings
+(siehe nächste Folie) transportiert und wie diese Angaben sich auf Salt
+und Hash auswirken. 
+
+Mittels PBKDF2 werden Passwörter geschützt, so dass diese in der
+Datenbank nicht im Klartext gelesen werden können.
+Der Algorithmus ist implementiert in der Klasse PasswordStorage [8]
+und kann genutzt werden. Die beiden wichtigen Methoden sind
+CreateHash() und VerifyHash(). Details dazu in der Vorlesung.
+Laden Sie den Inhalt von [8] und legen Sie die Klasse im Ordner
+App_Code an.
+Beispiel:
+Ein Hash-String für das Passwort dbwt2017 lautet:
+sha1:64000:18:xLbNKkqfGAoNjpXaGKUVk+i2VHtnDv/E:
+lwh4Cz+m4gTXDcK0789I3P+B
