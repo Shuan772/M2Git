@@ -1,7 +1,7 @@
-Alle zum Browser ausgelieferten HTML Dokumente sind valide
-Die Seite Produkte.cshtml liefert die dynamische Produktliste 
-Die Seite Detail.cshtml liefert sowohl den Namen, die Beschreibung, den Gäste-Preis und das Bild aus der Datenbank
-Die Seite Detail.cshtml fängt fehlerhafte/nicht existierende IDs ab und leitet client-seitig nach 3s auf Start.cshtml um
+Alle zum Browser ausgelieferten HTML Dokumente sind valide x
+Die Seite Produkte.cshtml liefert die dynamische Produktliste x
+Die Seite Detail.cshtml liefert sowohl den Namen, die Beschreibung, den Gäste-Preis und das Bild aus der Datenbank x
+Die Seite Detail.cshtml fängt fehlerhafte/nicht existierende IDs ab und leitet client-seitig nach 3s auf Start.cshtml um TODO: Fehlerhafe eingaben abfangen.
 Alle MySqlCommand Queries in Ihrer Software wählen die tatsächlich benötigten Attribute aus den Tabellen aus und nutzen nicht *
 Geöffnete Verbindungen zum DBMS werden nach Gebrauch bzw.im Fehlerfall geschlossen
 Sie nutzen nicht den root-User für die Verbindung und die Verbindungsdetails sind zentral in der Web.config zu finden
