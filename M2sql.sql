@@ -135,7 +135,6 @@ CREATE TABLE Mahlzeiten(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	Vorrat INT UNSIGNED NOT NULL DEFAULT 0,
 	Beschreibung VARCHAR(255) NOT NULL,
-	Name VARCHAR(20) NOT NULL,
 	Kategorie INT UNSIGNED,
 	FOREIGN KEY (Kategorie) REFERENCES Kategorien(ID),
 	Verfügbar BOOL,
@@ -215,7 +214,7 @@ CREATE TABLE BenutzerXBenutzer(
 	FOREIGN KEY (Benutzerzwei) REFERENCES Benutzer(Nummer)
 );
 
-
+ALTER TABLE Mahlzeiten ADD COLUMN `Name` VARCHAR(20) NOT NULL;
 
 INSERT INTO Benutzer (`E-Mail` , Nutzername , Aktiv , Anlegedatum , Vorname , Nachname , Salt , `Hash` , ISA ) 
 VALUES 
@@ -378,6 +377,6 @@ INSERT INTO MahlzeitenXBilder(`Bilder`, `Mahlzeiten`) VALUES ('8', '8');
 
 DELETE FROM `Benutzer` WHERE Nummer = 3;
 
--- ALTER TABLE Mahlzeiten 
--- FOREIGN KEY (PreisJahr) REFERENCES Preise(Jahr);-- eins zu eins bezieheung mit Preis 
+ 
+
 

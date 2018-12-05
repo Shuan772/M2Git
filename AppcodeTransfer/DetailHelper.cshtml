@@ -12,6 +12,7 @@
 
         // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
         string query = "SELECT * FROM Mahlzeiten mahl JOIN MahlzeitenXBilder mxb ON mahl.ID = mxb.Mahlzeiten JOIN Bilder bild ON bild.ID = mxb.Bilder JOIN preise preis ON preis.MahlzeitenID = mahl.ID WHERE mahl.ID = " + id + ";";
+        //Alle Tupel von Mahlzeiten als mahl dazu
         // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
         MySqlCommand command = new MySqlCommand(query, con);
 
@@ -54,7 +55,7 @@
                 </div>
             </div>
             <div class="col-3">
-                <h2 style="text-align:right">@reader["Gastpreis"] </h2>
+                <h2 style="text-align:right">@reader["Gastpreis"] €</h2>
                 <button type="button" style="align-self:auto"><i class="fas fa-utensils"></i>Vorbestellen</button>
             </div>
         </div>
@@ -109,24 +110,8 @@
         <p class="danger">
             <br />404 Produkt not found.
         </p>
-      
+        <meta http-equiv="refresh" content="3;url=/M2Git/Produkte.cshtml" />
+
     }
 
-}
-@helper check(string id)
-{
-try
-{
-    MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Datenbank;");
-    con.Open();
-    string URLid = Request.QueryString["id"];
-    string query = "SELECT * FROM Mahlzeiten mahl JOIN MahlzeitenXBilder mxb ON mahl.ID = mxb.Mahlzeiten JOIN Bilder bild ON bild.ID = mxb.Bilder JOIN preise preis ON preis.MahlzeitenID = mahl.ID WHERE mahl.ID = " + URLid + ";";
-    MySqlCommand command = new MySqlCommand(query, con);
-    MySqlDataReader reader = command.ExecuteReader();
-    reader.Read();
-}
-catch (Exception ex)
-{
-    <meta http-equiv="refresh" content="3;url=http://localhost:52328/M2Git/Produkte.cshtml" />
-    }
 }
