@@ -331,19 +331,26 @@ REPLACE INTO `Mitarbeiter` (Büro, Telefon , ID) VALUES
 
 
 -- Adrians kram
-INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Klassiker",1);
-INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Empfehlung",2);
-INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Suppe",3);
+INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Um die Welt",1);
+INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Saisonal",2);
+
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Italienisches",11,1);
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Amerikanisches",12,1);
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Ungarisches",13,1);
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Schwedisches",14,1);
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Griechisches",15,1);
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Mexkanisches",16,1);
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Suppen",17,2);
 
 INSERT INTO Mahlzeiten (ID,`Beschreibung` , `Name`, `Vorrat`,`Kategorie`)
-VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","1","1"),
-	(2,"Beschreibung für Schnitzel", "Schnitzel","1","2"),
-	(3,"Beschreibung für Bratrolle", "Bratrolle","1","2"),
-	(4,"Beschreibung für Krautsalat", "Krautsalat","1","1"),
-	(5,"Beschreibung für Falafel", "Falafel","1","3"),
-	(6,"Beschreibung für Currywurst", "Currywurst","1","3"),
-	(7,"Beschreibung für Käsestulle", "Käsestulle","1","3"),
-	(8,"Beschreibung für Spiegelei", "Spiegelei","1","1");
+VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","2","11"),
+	(2,"Beschreibung für Schnitzel", "Schnitzel","2","12"),
+	(3,"Beschreibung für Bratrolle", "Bratrolle","1","13"),
+	(4,"Beschreibung für Krautsalat", "Krautsalat","1","14"),
+	(5,"Beschreibung für Falafel", "Falafel","1","15"),
+	(6,"Beschreibung für Currywurst", "Currywurst","1","14"),
+	(7,"Beschreibung für Käsestulle", "Käsestulle","1","16"),
+	(8,"Beschreibung für Spiegelei", "Spiegelei","1","17");
 REPLACE INTO Preise(Gastpreis,MahlzeitenID,Jahr)
 VALUES('3.50',1,2018),
 		('3.00',2,2018),
