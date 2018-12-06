@@ -1,8 +1,8 @@
-﻿Die Seite Detail.cshtml fängt fehlerhafte/nicht existierende IDs ab und leitet client-seitig nach 3s auf Start.cshtml um TODO: Fehlerhafe eingaben abfangen. TODO Cast
-Alle MySqlCommand Queries in Ihrer Software wählen die tatsächlich benötigten Attribute aus den Tabellen aus und nutzen nicht * TODO Namen der spralten statt *
-Geöffnete Verbindungen zum DBMS werden nach Gebrauch bzw.im Fehlerfall geschlossen TODO im catch abfangen.
-Sie nutzen nicht den root-User für die Verbindung und die Verbindungsdetails sind zentral in der Web.config zu finden TODO in web config
-
+﻿Die Seite Detail.cshtml fängt fehlerhafte/nicht existierende IDs ab und leitet client-seitig nach 3s auf Start.cshtml um TODO: Fehlerhafe eingaben abfangen. TODO Cast 		X
+Alle MySqlCommand Queries in Ihrer Software wählen die tatsächlich benötigten Attribute aus den Tabellen aus und nutzen nicht * TODO Namen der spralten statt *			x
+Geöffnete Verbindungen zum DBMS werden nach Gebrauch bzw.im Fehlerfall geschlossen TODO im catch abfangen.  									x
+Sie nutzen nicht den root-User für die Verbindung und die Verbindungsdetails sind zentral in der Web.config zu finden TODO in web config					x
+			
 
 4.1 Produkte
 Produkte Seite Formular speisen filter aktivieren.
@@ -13,6 +13,7 @@ das Dropdown per <Select> <OPTGROUP> und <Option> machen
 Prüfen ob speise verfügbar falls nicht grau
 Auf der Gefilterten seite Kategorie im Dropdown ausgewählt.
 Checkboxen aktivieren.
+Limit von 8 auf undendlich.
 
 4.2 Login
 Daten in Session SPeichern
