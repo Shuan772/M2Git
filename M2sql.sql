@@ -133,7 +133,7 @@ CREATE TABLE Kategorien(
 
 CREATE TABLE Mahlzeiten(
 	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	Vorrat INT UNSIGNED NOT NULL DEFAULT 0,
+	Vorrat INT NOT NULL DEFAULT 0,
 	Beschreibung VARCHAR(255) NOT NULL,
 	Kategorie INT UNSIGNED,
 	FOREIGN KEY (Kategorie) REFERENCES Kategorien(ID),
@@ -351,6 +351,25 @@ VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","2","11"),
 	(6,"Beschreibung für Currywurst", "Currywurst","1","14"),
 	(7,"Beschreibung für Käsestulle", "Käsestulle","1","16"),
 	(8,"Beschreibung für Spiegelei", "Spiegelei","1","17");
+
+REPLACE INTO `zutatenxmahlzeiten` (`Zutaten`, `Mahlzeiten`) VALUES
+	(10080, 1),
+	(10081, 2),
+	(10082, 3),
+	(10083, 4),
+	(10100, 5),
+	(10101, 6),
+	(10123, 7),
+	(19110, 8),
+	(19110, 1);
+
+
+
+
+
+
+	
+	
 REPLACE INTO Preise(Gastpreis,MahlzeitenID,Jahr)
 VALUES('3.50',1,2018),
 		('3.00',2,2018),

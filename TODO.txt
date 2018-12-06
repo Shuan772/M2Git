@@ -9,11 +9,11 @@ Produkte Seite Formular speisen filter aktivieren.
 TODO: warum die HTTP art gewählt wurde?
 //ebenen an kategorien ??? --> man soll nicht auswählbare Oberkategorien erstellen und normale unterkategorien.
 das Dropdown per <Select> <OPTGROUP> und <Option> machen
-+Option alle anzeigen lassen.
-Prüfen ob speise verfügbar falls nicht grau
-Auf der Gefilterten seite Kategorie im Dropdown ausgewählt.
-Checkboxen aktivieren.
-Limit von 8 auf undendlich.
++Option alle anzeigen lassen.x
+Prüfen ob speise verfügbar falls nicht grau.x
+Auf der Gefilterten seite Kategorie im Dropdown ausgewählt.x
+Checkboxen aktivieren.x
+Limit von 8 auf undendlich.x
 
 4.2 Login
 Daten in Session SPeichern
