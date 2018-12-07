@@ -1,29 +1,91 @@
 ﻿@using MySql.Data.MySqlClient
+@using System.Configuration;
+
 @helper ProdukteGallery()
 {
-    try
+
+MySqlConnection con = null;
+
+
+
+try
+{
+    using (con = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString))
     {
-        MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=Datenbank;");
+        //MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=datenbank;");
 
         // hier öffnen Sie die Verbindung zu, DBMS
         con.Open();
         int zaehler = 1;
         string query, querykat;
         string urlbez = Request.QueryString["bez"];
-        if (urlbez == null)
+        string urlvor = Request.QueryString["vor"];
+        string urlvege = Request.QueryString["vege"];
+        string urlvega = Request.QueryString["vega"];
+        string queryend = "";
+        string queryjoin = "";
+
+        query = "SELECT mahl.ID,mahl.Name,mahl.Vorrat,mxb.ID,mxb.Bilder,bild.ID,bild.`Alt-Text`,bild.Titel,bild.`Binärdaten` FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder";
+        if (urlbez != null && urlbez != "0")
         {
-
-
-            query = "SELECT * FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder LIMIT 8;";
-
+            if (queryend == "")
+            {
+                queryend = " WHERE ";
+            }
+            else
+            {
+                queryend = queryend + " AND ";
+            }
+            queryend = queryend + "mahl.kategorie ='" + urlbez + "'"; //ID = Bezeichnung
         }
-        else
+        if (urlvor == "1")
         {
-
-            query = "SELECT * FROM Mahlzeiten mahl join MahlzeitenXBilder mxb on mahl.ID = mxb.Mahlzeiten join Bilder bild on bild.ID = mxb.Bilder join Kategorien kat on mahl.Kategorie = kat.ID WHERE kat.Bezeichnung ='" + urlbez + "' LIMIT 8;";
+            if (queryend == "")
+            {
+                queryend = " WHERE ";
+            }
+            else
+            {
+                queryend = queryend + " AND ";
+            }
+            queryend = queryend + "mahl.Vorrat > '0'"; //ID = Bezeichnung
         }
+        if (urlvege == "1")
+        {
+            if (queryjoin == "")
+            {
+                queryjoin = " JOIN zutatenxmahlzeiten zxm on mahl.ID = zxm.Mahlzeiten JOIN zutaten z on zxm.zutaten = z.ID ";
+            }
+            if (queryend == "")
+            {
+                queryend = " WHERE ";
+            }
+            else
+            {
+                queryend = queryend + " AND ";
+            }
+            queryend = queryend + "z.Vegetarisch = '1'"; //ID = Bezeichnung
+        }
+        if (urlvega == "1")
+        {
+            if (queryjoin == "")
+            {
+                queryjoin = " JOIN zutatenxmahlzeiten zxm on mahl.ID = zxm.Mahlzeiten JOIN zutaten z on zxm.zutaten = z.ID ";
+            }
+            if (queryend == "")
+            {
+                queryend = " WHERE ";
+            }
+            else
+            {
+                queryend = queryend + " AND ";
+            }
+            queryend = queryend + "z.Vegan = '1'"; //ID = Bezeichnung
+        }
+        query = query + queryjoin + queryend + ";";
 
-        querykat = "SELECT * FROM Kategorien";
+        querykat = "SELECT ID,Bezeichnung,Kategorie FROM Kategorien";
+        //querykat = "SELECT * FROM Kategorien";
 
         // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
         // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
@@ -36,19 +98,131 @@
         //Prdoukte link bsp string Href= "/M2Git/Produkte.cshtml?id=" + @name;
 
 
-        <div class="col-4">
 
+        List<string> bezeichnung = new List<string>();
+        List<string> ids = new List<string>();
+        List<string> kategorien = new List<string>();
+
+        while (readerkat.Read())
+        {
+            ids.Add(readerkat["id"].ToString());
+            bezeichnung.Add(readerkat["bezeichnung"].ToString());
+            if (readerkat["kategorie"].ToString() == "")
+            {
+                kategorien.Add("0");
+            }
+            else {
+                kategorien.Add(readerkat["kategorie"].ToString());
+            }
+        }
+
+        <div class="col-4">
             <form method="get" action="/M2Git/Produkte.cshtml">
                 <fieldset class="border align-content-center">
                     <legend class="scheduler-border">Speisenliste filtern</legend>
                     <div class="container center_div">
+
+                        <select name="bez">
+                            <optgroup label="Generell">
+                                <option value="0">Alle zeigen</option>
+                            </optgroup>
+
+                            @foreach (string id in ids)
+                            {
+                                int pos = ids.IndexOf(id);
+                                var mybezeichnung = bezeichnung.ElementAt(pos);
+                                var myid = ids.ElementAt(pos);
+                                var kategorie = kategorien.ElementAt(pos);
+
+
+                                if (kategorie == "0")
+                                {
+                                    //z++;
+
+                                    // ids.Remove(ids.ElementAt(pos));
+                                    // bezeichnung.Remove(bezeichnung.ElementAt(pos));
+                                    //  kategorien.Remove(kategorien.ElementAt(pos));
+
+
+                                    <optgroup label="@mybezeichnung">
+
+                                        @foreach (string id2 in ids)
+                                        {
+                                            int pos2 = ids.IndexOf(id2);
+                                            var kategorie2 = kategorien.ElementAt(pos2);
+
+                                            if (kategorie2 == myid)
+                                            {
+
+                                                var mybezeichnung2 = bezeichnung.ElementAt(pos2);
+                                                var myid2 = ids.ElementAt(pos2);
+
+                                                // ids.Remove(ids.ElementAt(pos2));
+                                                // bezeichnung.Remove(bezeichnung.ElementAt(pos2));
+                                                // kategorien.Remove(kategorien.ElementAt(pos2));
+                                                if (urlbez == myid2)
+                                                {
+                                                    <option value="@myid2" selected="selected">@mybezeichnung2</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@myid2">@mybezeichnung2</option>
+                                                }
+
+                                            }
+                                        }
+                                    </optgroup>
+                                    //break;
+                                }
+                            }
+
+
+
+                        </select>
+                        <br>
+                        @{
+                            con.Close();
+                        }
+                        @{
+                            if (urlvor == "1")
+                            {
+                                <p><input type="checkbox" value="1" name="vor" checked> nur verfügbare<br></p>
+                            }
+                            else
+                            {
+                                <p><input type="checkbox" value="1" name="vor"> nur verfügbare<br></p>
+                            }
+
+                            if (urlvege == "1")
+                            {
+                                <p><input type="checkbox" value="1" name="vege" checked> nur vegetarische<br></p>
+                            }
+                            else
+                            {
+                                <p><input type="checkbox" value="1" name="vege"> nur vegetarische<br></p>
+                            }
+
+                            if (urlvega == "1")
+                            {
+                                <p><input type="checkbox" value="1" name="vega" checked> nur vegane<br></p>
+                            }
+                            else
+                            {
+                                <p><input type="checkbox" value="1" name="vega"> nur vegane<br></p>
+                            }
+                        }
+
+
+                        <button type="submit">Speisen Filtern</button>
+                    </div>
+                    <!--<div class="container center_div">
                         <input type="search" name="bez" list="Kategorien">
                         <datalist id="Kategorien">
-                            @while (readerkat.Read())
+                            while (readerkat.Read())
                             {
-                                <option value="@readerkat["Bezeichnung"]">@readerkat["Bezeichnung"]</option>
+                                <option value="readerkat["Bezeichnung"]">readerkat["Bezeichnung"]</option>
                             }
-                            @{
+                            {
                                 con.Close();
                             }
                         </datalist>
@@ -57,67 +231,108 @@
                         <input type="checkbox"> nur vegetarische<br>
                         <input type="checkbox"> nur vegane<br>
                         <button type="submit">Speisen Filtern</button>
-                    </div>
+                    </div>-->
                 </fieldset>
             </form>
         </div>
         <div class="col-8">
-            <div class="row">
-                @{ con.Open();
-                    MySqlCommand command = new MySqlCommand(query, con);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    //
-                }
-                @while (reader.Read())
+            @{ con.Open();
+                MySqlCommand command = new MySqlCommand(query, con);
+                MySqlDataReader reader = command.ExecuteReader();
+                //
+            }
+
+            <!--while (reader.HasRows)-->
+            @{
+                for (int i = 0; i < 10; i++)
                 {
-                    @ProduktKarte(reader)
+                    <div class="row">
+                        @while (reader.Read())
+                        {
+                            @ProduktKarte(reader)
+                            zaehler++;
+
+                            if (zaehler % 4 == 1)
+                            {
+                                break;
+                            }
+                        }
+                    </div>
+                }
+            }
+            <!--
+                        while (reader.Read())
+                        {
+                            if (zaehler % 4 == 1)
+                            {
+                                <div class="row">
+                                </div>
+                            }
+
+
+                            ProduktKarte(reader)
+                           if (zaehler % 4 == 0)
+                            {
+
+                            }
+                            zaehler++;
+                        }-->
+            <!--<div class="row">
+
+                while (reader.Read())
+                {
+                    ProduktKarte(reader)
                     zaehler++;
                     if (zaehler == 5)
                     {
                         break;
                     }
                 }
+            </div>-->
+            @{
+                con.Close();
+            }
 
-
-
-            </div>
-            <div class="row">
-
-                @while (reader.Read())
-                {
-                    @ProduktKarte(reader)
-                    zaehler++;
-                    if (zaehler == 5)
-                    {
-                        break;
-                    }
-                }
-                @{
-                    con.Close();
-                }
-            </div>
         </div>
+                    }
 
 
-    }
-    catch (Exception ex)
-    {
-        <p class="danger">
-            <br />@ex.Message
-        </p>
-    }
+                }
+                catch (Exception ex)
+                {
+
+                    if (con != null)
+                    {
+                        con.Close();
+                    }
+
+                    <p class="danger">
+                        <br />@ex.Message
+                    </p>
+                }
 }
 
 @helper ProduktKarte(MySqlDataReader reader)
 {
 
-    var base64 = Convert.ToBase64String((byte[])reader["Binärdaten"]);
-    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+var base64 = Convert.ToBase64String((byte[])reader["Binärdaten"]);
+var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
     <div class="card">
-        <img class="card-img-top card-product-display" src="@imgSrc" alt="@reader["Alt-text"]">
-        <div class="card-body">
-            <h5 class="card-title">@reader["Name"]</h5>
-            <a Href="/M2Git/Detail.cshtml?id=@reader["ID"]" class="btn btn-primary"><u>Details</u></a>
-        </div>
+        @{
+            int x = Convert.ToInt32(reader["Vorrat"]);
+
+            <img class="card-img-top card-product-display" src="@imgSrc" alt="@reader["Alt-text"]">
+            <div class="card-body">
+                <h5 class="card-title">@reader["Name"]</h5>
+                @if (x >= 1)
+                {
+                    <a Href="/M2Git/Detail.cshtml?id=@reader["ID"]" class="btn btn-primary"><u>Details</u></a>
+                }
+                else
+                {
+                    <a>Nicht verfügbar</a>
+                }
+            </div>
+        }
     </div>
 }
