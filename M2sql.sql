@@ -353,11 +353,12 @@ VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","0","11"),
 	(4,"Beschreibung für Krautsalat", "Krautsalat","1","14"),
 	(5,"Beschreibung für Falafel", "Falafel","1","15"),
 	(6,"Beschreibung für Currywurst", "Currywurst","1","14"),
-	(7,"Beschreibung für Käsestulle", "Käsestulle","1","16"),
+	(7,"Beschreibung für Käsestulle", "Käsestulle","0","16"),
 	(8,"Beschreibung für Spiegelei", "Spiegelei","1","17");
 
 REPLACE INTO `zutatenxmahlzeiten` (`Zutaten`, `Mahlzeiten`) VALUES
 	(10080, 1), -- vegan vegetarisch nn
+	(19110, 1), -- jj
 	(10081, 2), -- nn
 	(10082, 3), -- nn
 	(10083, 4), -- nn
@@ -366,8 +367,10 @@ REPLACE INTO `zutatenxmahlzeiten` (`Zutaten`, `Mahlzeiten`) VALUES
 	(10101, 6), -- jj
 	(10082, 6), -- nn
 	(10123, 7), -- jj
-	(19110, 8), -- jj
-	(19110, 1); -- jj
+	(10101, 8), -- jj
+	(10123, 8), -- jj
+	(19110, 8); -- jj
+	
 	
 
 
