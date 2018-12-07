@@ -1,7 +1,8 @@
 ﻿@using MySql.Data.MySqlClient
-
+@using System.Configuration;
 @helper LoginIndex()
 {
+   
     try
     {
         if (string.IsNullOrEmpty(Session["user"] as string))
@@ -11,11 +12,11 @@
                 Session.Remove("user"); // Diese Daten sollen aus
                 Session.Remove("role"); // der Datenbank kommen
             }
-            if (Request.Form["name"] == "" || Request.Form["password"] == "")
+            if (Request.Form["name"].ToString() == "" || Request.Form["password"].ToString() == "")
             {
                 <p>Leeres Feld</p>
             }
-            if (Request.Form["name"] != "" && Request.Form["password"] != "")
+            if (Request.Form["name"].ToString() != "" && Request.Form["password"].ToString() != "")
             {
                 @PostLogin()
             }
@@ -67,18 +68,44 @@
 
 @helper PostLogin()
 {
+MySqlConnection con = null;
+try
+{
+
     // TODO get role from DB and set Session than call True login
     // conection kram
     // return true
     //return false
     //Logik stimmt nicht.
-    var name = Request.Form["name"];
-    var pw = Request.Form["password"];
-    <p>@name</p>
-    <p>@pw</p>
+    /*   using (con = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString))
+       {
+           var name = Request.Form["name"];
+           var pw = Request.Form["password"];
+           string query = "SELECT be.ID ,be.`hash` , be.`Salt` , be.`Nutzername` , be.`ISA` FROM benutzer be WHERE be.`Nutzername` =" + name + " ;";
+           con.Open();
+           MySqlCommand command = new MySqlCommand(query, con);
+           MySqlDataReader reader = command.ExecuteReader();
+           reader.Read();
+           string vhash = @PasswordSecurity.PasswordStorage.CreateHash(Request.Form["password"].ToString());
+           bool testhash = @PasswordSecurity.PasswordStorage.VerifyPassword(Request.Form["password"].ToString(), reader["hash"].ToString());
+           Session["User"] = reader["ID"].ToString();
+           Session["Role"] = reader["ISA"].ToString();
+           //if (testhash)
+
+                   <p>@reader["Nutzername"]</p><br />
+                   <p>@reader["ISA"]</p><br />
+                   <code>@Request.Form["password"]</code><br />
+                   <code>@vhash</code><br />
+                   <p>@testhash</p><br />
 
 
 
+       } */
+}
+catch (Exception ex)
+{
+            <p>@ex</p>
+        }
 }
 
 
