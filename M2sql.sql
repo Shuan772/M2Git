@@ -334,12 +334,16 @@ REPLACE INTO `Mitarbeiter` (Büro, Telefon , ID) VALUES
 INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Um die Welt",1);
 INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Saisonal",2);
 
+
 INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Italienisches",11,1);
 INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Amerikanisches",12,1);
 INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Ungarisches",13,1);
+
+INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Neuer Test",3);
+
 INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Schwedisches",14,1);
 INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Griechisches",15,1);
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Mexkanisches",16,1);
+INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Mexkanisches",16,3);
 INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Suppen",17,2);
 
 INSERT INTO Mahlzeiten (ID,`Beschreibung` , `Name`, `Vorrat`,`Kategorie`)

@@ -5,10 +5,11 @@ Sie nutzen nicht den root-User für die Verbindung und die Verbindungsdetails si
 			
 
 4.1 Produkte
-Produkte Seite Formular speisen filter aktivieren.
+Check wie join funktioniert zum testen mehrerer zutaten
+Produkte Seite Formular speisen filter aktivieren.x
 TODO: warum die HTTP art gewählt wurde?
-//ebenen an kategorien ??? --> man soll nicht auswählbare Oberkategorien erstellen und normale unterkategorien.
-das Dropdown per <Select> <OPTGROUP> und <Option> machen
+//ebenen an kategorien ??? --> man soll nicht auswählbare Oberkategorien erstellen und normale unterkategorien.x
+das Dropdown per <Select> <OPTGROUP> und <Option> machen.x
 +Option alle anzeigen lassen.x
 Prüfen ob speise verfügbar falls nicht grau.x
 Auf der Gefilterten seite Kategorie im Dropdown ausgewählt.x
