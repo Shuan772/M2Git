@@ -1,0 +1,84 @@
+﻿@using MySql.Data.MySqlClient
+
+@helper LoginIndex()
+{
+    try
+    {
+        if (string.IsNullOrEmpty(Session["user"] as string))
+        {
+            if (Request.Form["logout"] == "1")
+            {
+                Session.Remove("user"); // Diese Daten sollen aus
+                Session.Remove("role"); // der Datenbank kommen
+            }
+            if (Request.Form["name"] == "" || Request.Form["password"] == "")
+            {
+                <p>Leeres Feld</p>
+            }
+            if (Request.Form["name"] != "" && Request.Form["password"] != "")
+            {
+                @PostLogin()
+            }
+            else
+            {
+                @NOLogin()
+            }
+        }
+        else
+        {
+            @TrueLogin()
+        }
+
+    }
+    catch (Exception ex)
+    {
+        <p>@ex</p>
+    }
+}
+@helper NOLogin()
+{
+    <div class="row">
+        <div class="col-3">
+            <form action="~/M2Git/Login.cshtml" method="post">
+                <fieldset class="border align-content-center form-control">
+                    <legend class="scheduler-border">Login</legend>
+                    <div class="container center_div">
+                        <label for="name" class="form-control">Name:</label>
+                        <input type="text" name="name" placeholder="Benutzer" required title="Min 1" class="form-control">
+                        <label for="password" class="form-control">Password:</label>
+                        <input type="password" name="password" placeholder="password" required title="Min 1" class="form-control">
+                        <button type="submit" class="form-control">Anmelden</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+}
+
+@helper TrueLogin()
+{
+    <p>Herzlich Willkommen, @Session["role"]</p>
+    <form action="~/M2Git/Login.cshtml" method="post">
+        <input type="hidden" name="logout" value="1" />
+        <button type="submit" class="form-control">Abmelden</button>
+    </form>
+
+}
+
+@helper PostLogin()
+{
+    // TODO get role from DB and set Session than call True login
+    // conection kram
+    // return true
+    //return false
+    //Logik stimmt nicht.
+    var name = Request.Form["name"];
+    var pw = Request.Form["password"];
+    <p>@name</p>
+    <p>@pw</p>
+
+
+
+}
+
+
