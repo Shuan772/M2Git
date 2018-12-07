@@ -1,7 +1,7 @@
 ﻿4.1 Produkte
 Check wie join funktioniert zum testen mehrerer zutaten
 TODO: warum die HTTP art gewählt wurde?
-
+ SELECT mahl.ID, mahl.Vorrat , mahl.Name , bild.`Alt-Text` , bild.`titel` , bild.`Binärdaten` From Mahlzeiten mahl JOIN MahlzeitenXBilder mxb ON mahl.ID = mxb.Mahlzeiten JOIN Bilder bild ON bild.ID = mxb.Bilder  Join Kategorien kat on mahl.Kategorie = kat.ID WHERE mahl.Vorrat > 0 AND NOT EXISTS (Select * FROm zutaten z Join zutatenxmahlzeiten x on z.ID = x.Zutaten where (z.vegetarisch = 0 OR  z.vegan = 0) AND x.Mahlzeiten = mahl.ID);
 
 4.2 Login
 Daten in Session SPeichern
