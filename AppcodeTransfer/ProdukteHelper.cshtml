@@ -321,18 +321,24 @@ var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
         @{
             int x = Convert.ToInt32(reader["Vorrat"]);
 
-            <img class="card-img-top card-product-display" src="@imgSrc" alt="@reader["Alt-text"]">
-            <div class="card-body">
-                <h5 class="card-title">@reader["Name"]</h5>
-                @if (x >= 1)
-                {
+
+            if (x >= 1)
+            {
+                <img class="card-img-top card-product-display" src="@imgSrc" alt="@reader["Alt-text"]">
+                <div class="card-body">
+                    <h5 class="card-title">@reader["Name"]</h5>
                     <a Href="/M2Git/Detail.cshtml?id=@reader["ID"]" class="btn btn-primary"><u>Details</u></a>
-                }
-                else
-                {
+                </div>
+            }
+            else
+            {
+                <img class="card-product-display desaturate" src="@imgSrc" alt="@reader["Alt-text"]">
+                <div class="card-body">
+                    <h5 class="card-title">@reader["Name"]</h5>
                     <a>Nicht verfügbar</a>
-                }
-            </div>
+                </div>
+            }
+
         }
     </div>
 }

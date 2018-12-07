@@ -138,7 +138,7 @@ CREATE TABLE Mahlzeiten(
 	Kategorie INT UNSIGNED,
 	FOREIGN KEY (Kategorie) REFERENCES Kategorien(ID),
 	Verfügbar BOOL,
-	CHECK (Vorrat > 0),
+--	CHECK (Vorrat > 0),
 	PreisJahr year
 );
 
@@ -347,7 +347,7 @@ INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Mexkanisches",16,3
 INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Suppen",17,2);
 
 INSERT INTO Mahlzeiten (ID,`Beschreibung` , `Name`, `Vorrat`,`Kategorie`)
-VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","2","11"),
+VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","0","11"),
 	(2,"Beschreibung für Schnitzel", "Schnitzel","2","12"),
 	(3,"Beschreibung für Bratrolle", "Bratrolle","1","13"),
 	(4,"Beschreibung für Krautsalat", "Krautsalat","1","14"),

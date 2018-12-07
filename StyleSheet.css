@@ -156,4 +156,10 @@ nav li:last-child a {
         height: 134px;
     width: auto;
         */
+    width: 10rem;
+}
+
+img.desaturate {
+
+	filter: grayscale(100%);
 }
