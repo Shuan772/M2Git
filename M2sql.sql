@@ -266,7 +266,7 @@ REPLACE INTO `Deklarationen` (`Zeichen`, `Beschriftung`) VALUES
 REPLACE INTO `Zutaten` (`ID`, `Name`, `Bio`, `Vegan`, `Vegetarisch`, `Glutenfrei`) VALUES
 	(10080, 'Aal', 0, 0, 0, 1),
 	(10081, 'Forelle', 0, 0, 0, 1),
-	(10082, 'Barsch', 0, 0, 0, 1),
+	(10082, 'Barsch', 0, 0, 1, 1), -- nicht vegetarisch
 	(10083, 'Lachs', 0, 0, 0, 1),
 	(10084, 'Lachs', 1, 0, 0, 1),
 	(10085, 'Heilbutt', 0, 0, 0, 1),
@@ -360,12 +360,12 @@ REPLACE INTO `zutatenxmahlzeiten` (`Zutaten`, `Mahlzeiten`) VALUES
 	(10080, 1), -- vegan vegetarisch nn
 	(19110, 1), -- jj
 	(10081, 2), -- nn
-	(10082, 3), -- nn
+	(10082, 3), -- nn (nj)
 	(10083, 4), -- nn
 	(10083, 5), -- nn
 	(10100, 5), -- jj
 	(10101, 6), -- jj
-	(10082, 6), -- nn
+	(10082, 6), -- nn (nj)
 	(10123, 7), -- jj
 	(10101, 8), -- jj
 	(10123, 8), -- jj
