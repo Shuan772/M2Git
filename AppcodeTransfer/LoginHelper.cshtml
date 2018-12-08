@@ -2,110 +2,125 @@
 @using System.Configuration;
 @helper LoginIndex()
 {
-   
-    try
+
+try
+{
+    if (Request.Form["logout"] == "1")
     {
-        if (string.IsNullOrEmpty(Session["user"] as string))
+        Session.Remove("User"); // Diese Daten sollen aus
+        Session.Remove("Role"); // der Datenbank kommen
+    }
+
+    if (string.IsNullOrEmpty(Session["User"] as string))
+    {
+        if (Request.Form["name"] != "" && Request.Form["password"] != "" && Request.Form["name"] != null && Request.Form["password"] != null)
         {
-            if (Request.Form["logout"] == "1")
+            MySqlConnection con = null;
+            try
             {
-                Session.Remove("user"); // Diese Daten sollen aus
-                Session.Remove("role"); // der Datenbank kommen
+
+                con = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString);
+                var name = Request.Form["name"];
+                var pw = Request.Form["password"];
+                string query = "SELECT be.Nummer ,be.`hash` , be.`Salt` , be.`Nutzername` , be.`ISA` FROM benutzer be WHERE be.`Nutzername` ='" + name + "' ;";
+                con.Open();
+                MySqlCommand command = new MySqlCommand(query, con);
+                MySqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                string teststring = "sha1: 64000:18:" + reader["salt"].ToString() + ":" + reader["hash"].ToString();
+
+                    
+                    //string result = PasswordSecurity.PasswordStorage.CreateHash(reader["salt"].ToString() + Request.Form["password"]);
+                    
+                    bool testhash = PasswordSecurity.PasswordStorage.VerifyPassword(Request.Form["password"], "sha1:64000:18:" + reader["salt"].ToString() + ":" + reader["hash"].ToString());
+                    string nummer = reader["Nummer"].ToString();
+                    string isa = reader["ISA"].ToString();
+                    con.Close();
+                   
+                if (testhash)
+                {
+                    Session["User"] = nummer;
+                    Session["Role"] = isa;
+                @TrueLogin()
+                }
+                else
+                {
+                    @FalseLogin(Request.Form["name"], Request.Form["password"])
+                }
+
             }
-            if (Request.Form["name"].ToString() == "" || Request.Form["password"].ToString() == "")
+            catch (Exception ex)
             {
-                <p>Leeres Feld</p>
+                if (con != null)
+                {
+                    con.Close();
+                }
+                <p> @ex </p>
             }
-            if (Request.Form["name"].ToString() != "" && Request.Form["password"].ToString() != "")
-            {
-                @PostLogin()
-            }
-            else
-            {
-                @NOLogin()
-            }
+
         }
         else
         {
-            @TrueLogin()
+                @NOLogin()
         }
-
     }
-    catch (Exception ex)
+    else
     {
-        <p>@ex</p>
+            @TrueLogin()
     }
+
+}
+catch (Exception ex)
+{
+        <p>@ex</p>
+}
 }
 @helper NOLogin()
 {
-    <div class="row">
-        <div class="col-3">
+ 
+        <div class="col-6">
             <form action="~/M2Git/Login.cshtml" method="post">
-                <fieldset class="border align-content-center form-control">
+                <fieldset class="border align-content-center">
                     <legend class="scheduler-border">Login</legend>
-                    <div class="container center_div">
-                        <label for="name" class="form-control">Name:</label>
+                    <div>
+                        <label for="name">Name:</label>
                         <input type="text" name="name" placeholder="Benutzer" required title="Min 1" class="form-control">
-                        <label for="password" class="form-control">Password:</label>
+                        <label for="password">Password:</label>
                         <input type="password" name="password" placeholder="password" required title="Min 1" class="form-control">
                         <button type="submit" class="form-control">Anmelden</button>
                     </div>
                 </fieldset>
             </form>
         </div>
+
+}
+
+@helper FalseLogin(string altname,string altpw)
+{
+    <p><font color="red">Daten sind Falsch</font></p>
+    <div class="col-6">
+        <form action="~/M2Git/Login.cshtml" method="post">
+            <fieldset class="border align-content-center">
+                <legend class="scheduler-border">Login</legend>
+                <div>
+                    <label for="name" class="dangerlabel">Name:</label>
+                    <input value=@altname type="text" name="name" placeholder="Benutzer" required title="Min 1" class="form-control dangerinput">
+                    <label for="password" class="dangerlabel">Password:</label>
+                    <input value=@altpw type="password" name="password" placeholder="password" required title="Min 1" class="form-control dangerinput">
+                    <button type="submit" class="form-control">Anmelden</button>
+                </div>
+            </fieldset>
+        </form>
     </div>
+
 }
 
 @helper TrueLogin()
 {
-    <p>Herzlich Willkommen, @Session["role"]</p>
+    <p>Hallo @Session["user"], Sie sind angemeldet als @Session["role"]</p>
     <form action="~/M2Git/Login.cshtml" method="post">
         <input type="hidden" name="logout" value="1" />
-        <button type="submit" class="form-control">Abmelden</button>
+        <button type="submit" class="form-control logoutbutton">Abmelden</button>
     </form>
 
 }
-
-@helper PostLogin()
-{
-MySqlConnection con = null;
-try
-{
-
-    // TODO get role from DB and set Session than call True login
-    // conection kram
-    // return true
-    //return false
-    //Logik stimmt nicht.
-    /*   using (con = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString))
-       {
-           var name = Request.Form["name"];
-           var pw = Request.Form["password"];
-           string query = "SELECT be.ID ,be.`hash` , be.`Salt` , be.`Nutzername` , be.`ISA` FROM benutzer be WHERE be.`Nutzername` =" + name + " ;";
-           con.Open();
-           MySqlCommand command = new MySqlCommand(query, con);
-           MySqlDataReader reader = command.ExecuteReader();
-           reader.Read();
-           string vhash = @PasswordSecurity.PasswordStorage.CreateHash(Request.Form["password"].ToString());
-           bool testhash = @PasswordSecurity.PasswordStorage.VerifyPassword(Request.Form["password"].ToString(), reader["hash"].ToString());
-           Session["User"] = reader["ID"].ToString();
-           Session["Role"] = reader["ISA"].ToString();
-           //if (testhash)
-
-                   <p>@reader["Nutzername"]</p><br />
-                   <p>@reader["ISA"]</p><br />
-                   <code>@Request.Form["password"]</code><br />
-                   <code>@vhash</code><br />
-                   <p>@testhash</p><br />
-
-
-
-       } */
-}
-catch (Exception ex)
-{
-            <p>@ex</p>
-        }
-}
-
-

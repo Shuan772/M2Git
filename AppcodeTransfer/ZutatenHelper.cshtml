@@ -4,10 +4,7 @@
 
 @helper ZutatenTabelle()
 {
-/**/
 
-//MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=dorschultes;Pwd=2468;");
-//MySqlConnection con = new MySqlConnection(Web.ConnectionStrings["connstring"].ConnectionString);
 MySqlConnection con = null;
 
 try
@@ -15,50 +12,43 @@ try
     using (con = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString))
     {
 
-
-        //MySqlConnection con = new MySqlConnection("Server=localhost;Port=3306;Database=test;Uid=root;Pwd=datenbank;");
-        // hier öffnen Sie die Verbindung zu, DBMS
         con.Open();
 
-        // so sieht die Query aus z.B. ... String Konkatenation mit "A" + "B" --> "AB"
         string query = "SELECT Name,Bio,Vegan,Vegetarisch,Glutenfrei FROM Zutaten ORDER BY Bio DESC , Name ASC;";
-        //string query = "SELECT * FROM Zutaten ORDER BY Bio DESC , Name ASC;";
 
-        // Achtung, Tür und TOr offen für SQL Injection Attacks, aber zu Demonstrationszwecken okay
         MySqlCommand command = new MySqlCommand(query, con);
 
-        // SQL Befehl absetzen und direkt in "reader" speichern
+
         MySqlDataReader reader = command.ExecuteReader();
 
-        // reader.Read();
 
-            <h2>Zutaten</h2>
+        <h2>Zutaten</h2>
 
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Namen</th>
-                        <th>Vegan</th>
-                        <th>Vegetarisch</th>
-                        <th>Glutenfrei</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @while (reader.Read())
-                    {
-                        @ZuatenZeile(reader)
-                    }
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Namen</th>
+                    <th>Vegan</th>
+                    <th>Vegetarisch</th>
+                    <th>Glutenfrei</th>
+                </tr>
+            </thead>
+            <tbody>
+                @while (reader.Read())
+                {
+                    @ZuatenZeile(reader)
+                }
 
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Angaben Ohne Gewehr.</td>
-                        <td>Häckchen = Ja, X = Nein</td>
-                        <td>Häckchen = Ja, X = Nein</td>
-                        <td>Häckchen = Ja, X = Nein</td>
-                    </tr>
-                </tfoot>
-            </table>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Angaben Ohne Gewehr.</td>
+                    <td>Häckchen = Ja, X = Nein</td>
+                    <td>Häckchen = Ja, X = Nein</td>
+                    <td>Häckchen = Ja, X = Nein</td>
+                </tr>
+            </tfoot>
+        </table>
         con.Close();
     }
 }
@@ -69,10 +59,10 @@ catch (Exception ex)
         con.Close();
     }
 
-    <p class="danger">
-        <br />@ex.Message
-    </p>
-}
+        <p class="danger">
+            <br />@ex.Message
+        </p>
+    }
 
 }
 
