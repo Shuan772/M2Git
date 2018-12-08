@@ -2,6 +2,7 @@
 4.2 Login
 Legen Sie die SQL-Query zum Ermitteln der Rolle für einen
 bestimmten Benutzer als View [5] oder StoredProcedure [6][7] an.
+Der Preis des Produkts wird nach der Rolle korrekt angezeigt.
 
 
 [6] Stored Procedures in MariaDB
