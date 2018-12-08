@@ -1,40 +1,9 @@
-﻿4.1 Produkte
-Check wie join funktioniert zum testen mehrerer zutaten x
-TODO: warum die HTTP art gewählt wurde?
-
- SELECT mahl.ID, mahl.Vorrat , mahl.Name , bild.`Alt-Text` , bild.`titel` , bild.`Binärdaten` From Mahlzeiten mahl JOIN MahlzeitenXBilder mxb ON mahl.ID = mxb.Mahlzeiten JOIN Bilder bild ON bild.ID = mxb.Bilder  Join Kategorien kat on mahl.Kategorie = kat.ID WHERE mahl.Vorrat > 0 AND NOT EXISTS (Select * FROm zutaten z Join zutatenxmahlzeiten x on z.ID = x.Zutaten where (z.vegetarisch = 0 OR  z.vegan = 0) AND x.Mahlzeiten = mahl.ID);
-Join Kategorien kat on mahl.Kategorie = kat.ID WHERE mahl.Vorrat > 0 AND NOT EXISTS (Select * FROm zutaten z Join zutatenxmahlzeiten x on z.ID = x.Zutaten where (z.vegetarisch = 0 OR  z.vegan = 0) AND x.Mahlzeiten = mahl.ID);
-
+﻿
 4.2 Login
-Daten in Session SPeichern
-Session["user"] = "dbwt"; // Diese Daten sollen aus
-Session["role"] = "Student"; // der Datenbank kommen
-
-test ob variable gesetzt 
-if (!string.IsNullOrEmpty(Session["user"] as string))
-{ … }
-
-Legen Sie eine neue Seite Login.cshtml an, die das gleiche
-Formular auch zeigen kann. Diese Seite ist auch Ziel der Action
-aller Login-Formulare.
-
-Prüfen Sie in der Login.cshtml, ob Sie POST-Parameter erhalten
-(die für den Benutzer und das Passwort) und prüfen Sie in dem
-Fall, ob die zugehörigen Auth-Informationen korrekt sind (siehe
-PBKDF2 Folie).
-
-Stimmen die Daten überein, legen Sie die Session an (also user
-und role). Danach zeigen Sie nicht mehr das Login-Formular,
-sondern nur noch einen Logout-Button, siehe folgende Folie.
-
-Zeigen Sie einem angemeldeten Benutzer auf der Login-Seite
-seinen Namen, die Rolle und eine Abmeldemöglichkeit an.
-
 Legen Sie die SQL-Query zum Ermitteln der Rolle für einen
 bestimmten Benutzer als View [5] oder StoredProcedure [6][7] an.
 
-[5] VIEWs in MariaDB anlegen
-https://mariadb.com/kb/en/library/create-view/
+
 [6] Stored Procedures in MariaDB
 https://mariadb.com/kb/en/library/stored-procedure-overview/
 [7] Stored Procedures in C#/MySql.Data aufrufen
@@ -68,15 +37,3 @@ Preis zu einer genannten Nutzer-Nummer und einer Mahlzeiten-ID zurückgibt.
 Beschreiben Sie, was die Information sha1:64000:18 zu Beginn eines HashStrings
 (siehe nächste Folie) transportiert und wie diese Angaben sich auf Salt
 und Hash auswirken. 
-
-Mittels PBKDF2 werden Passwörter geschützt, so dass diese in der
-Datenbank nicht im Klartext gelesen werden können.
-Der Algorithmus ist implementiert in der Klasse PasswordStorage [8]
-und kann genutzt werden. Die beiden wichtigen Methoden sind
-CreateHash() und VerifyHash(). Details dazu in der Vorlesung.
-Laden Sie den Inhalt von [8] und legen Sie die Klasse im Ordner
-App_Code an.
-Beispiel:
-Ein Hash-String für das Passwort dbwt2017 lautet:
-sha1:64000:18:xLbNKkqfGAoNjpXaGKUVk+i2VHtnDv/E:
-lwh4Cz+m4gTXDcK0789I3P+B
