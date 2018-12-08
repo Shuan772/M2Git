@@ -218,10 +218,10 @@ ALTER TABLE Mahlzeiten ADD COLUMN `Name` VARCHAR(20) NOT NULL;
 
 INSERT INTO Benutzer (`E-Mail` , Nutzername , Aktiv , Anlegedatum , Vorname , Nachname , Salt , `Hash` , ISA ) 
 VALUES 
-('test1@test.de','test1' , 1 , '1996-01-02' , 'Adrian', 'Dorshock' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ), 
-('test2@test.de','test2' , 1 , '1997-01-02' , 'Adr', 'Dor' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ),
-('test3@test.de','test3' , 1 , '1998-01-02' , 'Alexander', 'Schultes' , 'asdjaowdp23424' , '68g3r7bhdixan' , "FHAngehörige" ),
-('test4@test.de','test4' , 1 , '1999-01-02' , 'Ale', 'Sch' , 'asdjaowdp23424' , '68g3r7bhdixan' , "Gast" );
+('test1@test.de','test1' , 1 , '1996-01-02' , 'Adrian', 'Dorshock' , 'yPU/6IPS+qvP1Gv/Yf8k0yvS1vlDpXtA' , 'OG9fX09py8OpC/WphT3biT2M' , "FHAngehörige" ), 
+('test2@test.de','test2' , 1 , '1997-01-02' , 'Adr', 'Dor' , 'yPU/6IPS+qvP1Gv/Yf8k0yvS1vlDpXtA' , 'OG9fX09py8OpC/WphT3biT2M' , "FHAngehörige" ),
+('test3@test.de','test3' , 1 , '1998-01-02' , 'Alexander', 'Schultes' , 'yPU/6IPS+qvP1Gv/Yf8k0yvS1vlDpXtA' , 'OG9fX09py8OpC/WphT3biT2M' , "FHAngehörige" ),
+('test4@test.de','test4' , 1 , '1999-01-02' , 'Ale', 'Sch' , 'yPU/6IPS+qvP1Gv/Yf8k0yvS1vlDpXtA' , 'OG9fX09py8OpC/WphT3biT2M' , "Gast" );
 
 
 REPLACE INTO `Deklarationen` (`Zeichen`, `Beschriftung`) VALUES
