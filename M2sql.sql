@@ -1,11 +1,3 @@
--- -test------------------------------------------------------------------------------------------------------------------------------------------
--- -test------------------------------------------------------------------------------------------------------------------------------------------
--- IF Not EXISTS Create DATABASE Mensa;
--- use Mensa;
--- ----Ohne Foreign key zuerst.
--- DEFAULT 0 -- noch zu setzen
--- NOT NULL bei Forgein keys
--- Alle Annahmen Kommentieren
 
 -- Drop Tables ....
 -- Kreuz
@@ -223,6 +215,17 @@ VALUES
 ('test3@test.de','test3' , 1 , '1998-01-02' , 'Alexander', 'Schultes' , 'yPU/6IPS+qvP1Gv/Yf8k0yvS1vlDpXtA' , 'OG9fX09py8OpC/WphT3biT2M' , "FHAngehörige" ),
 ('test4@test.de','test4' , 1 , '1999-01-02' , 'Ale', 'Sch' , 'yPU/6IPS+qvP1Gv/Yf8k0yvS1vlDpXtA' , 'OG9fX09py8OpC/WphT3biT2M' , "Gast" );
 
+REPLACE INTO `Benutzer` (`Nummer`, `Vorname`, `Nachname`, `E-Mail`, `Benutzername`, `Letzter_Login`, `Anlegedatum`, `Geburtsdatum`, `Alter`, `Salt`, `Hash`, `Aktiv`) VALUES (21, 'Bugs', 'Findmore', 'dbwt2018@ismypassword.com', 'bugfin', '2018-11-14 17:44:10', '2018-11-14', '1996-12-13', 0, 'MPVdLDf0zNVzpOHP+GmRxoBg9mdJIlc5', '4nx5U6DIE+N8xsbpwUr3Q1KG', 1);
+REPLACE INTO `Benutzer` (`Nummer`, `Vorname`, `Nachname`, `E-Mail`, `Benutzername`, `Letzter_Login`, `Anlegedatum`, `Geburtsdatum`, `Alter`, `Salt`, `Hash`, `Aktiv`) VALUES (22, 'Donald', 'Truck', 'testing@ismypassword.com', 'dot', '2018-11-14 17:44:10', '2018-11-14', '1991-12-11', 0, 'Ydn1iGl08JvvkVExSEiKDQhfYOaCtgOO', 'm5kZ68YVNU3xBiDqorthK9UP', 1);
+REPLACE INTO `Benutzer` (`Nummer`, `Vorname`, `Nachname`, `E-Mail`, `Benutzername`, `Letzter_Login`, `Anlegedatum`, `Geburtsdatum`, `Alter`, `Salt`, `Hash`, `Aktiv`) VALUES (23, 'Fiona', 'Index', 'an0ther@ismypassword.com', 'fionad', '2018-11-14 17:44:10', '2018-11-14', '1993-12-10', 0, 'I5GXy7BwYU2t3pHZ5YkBfKMbvN7Sr81O', 'oYylNvPe7YmjO1IHNdLA/XxJ', 1);
+REPLACE INTO `Benutzer` (`Nummer`, `Vorname`, `Nachname`, `E-Mail`, `Benutzername`, `Letzter_Login`, `Anlegedatum`, `Geburtsdatum`, `Alter`, `Salt`, `Hash`, `Aktiv`) VALUES (24, 'Wendy', 'Burger', 's3cr3tz@ismypassword.com', 'bkahuna', '2018-11-14 17:44:10', '2018-11-14', '1982-12-12', 0, 't1TAVguVwIiejXf3baaObIAtPx7Y+2iY', 'IMK2n5r8RUVFo4bMMS8uDyH4', 1);
+REPLACE INTO `Benutzer` (`Nummer`, `Vorname`, `Nachname`, `E-Mail`, `Benutzername`, `Letzter_Login`, `Anlegedatum`, `Geburtsdatum`, `Alter`, `Salt`, `Hash`, `Aktiv`) VALUES (25, 'Monster', 'Robot', '^;_`;^@ismypassword.com', 'root', '2018-11-14 17:44:10', '2018-11-14', '1982-12-12', 0, 'dX8YsBM9atpYto9caWHJM6Eet7bUngxk', 'nRt3MSBdNUHPj/q02WPgXaDA', 1);
+
+REPLACE INTO `Freunde` (`Benutzer`, `Freund`) VALUES (21, 22);
+REPLACE INTO `Freunde` (`Benutzer`, `Freund`) VALUES (21, 23);
+REPLACE INTO `Freunde` (`Benutzer`, `Freund`) VALUES (21, 24);
+REPLACE INTO `Freunde` (`Benutzer`, `Freund`) VALUES (22, 23);
+REPLACE INTO `Freunde` (`Benutzer`, `Freund`) VALUES (22, 24);
 
 REPLACE INTO `Deklarationen` (`Zeichen`, `Beschriftung`) VALUES
 	('2', 'Konservierungsstoff'),
@@ -331,21 +334,32 @@ REPLACE INTO `Mitarbeiter` (Büro, Telefon , ID) VALUES
 
 
 -- Adrians kram
-INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Um die Welt",1);
-INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Saisonal",2);
 
-
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Italienisches",11,1);
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Amerikanisches",12,1);
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Ungarisches",13,1);
-
-INSERT INTO Kategorien(`Bezeichnung`,ID) VALUES ("Neuer Test",3);
-
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Schwedisches",14,1);
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Griechisches",15,1);
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Mexkanisches",16,3);
-INSERT INTO Kategorien(`Bezeichnung`,ID,`Kategorie`) VALUES ("Suppen",17,2);
-
+REPLACE INTO `kategorien` (`ID`, `Bezeichnung`, `Kategorie`) VALUES
+	(1, 'Hauptspeisen', NULL),
+	(2, 'Kleinigkeiten', NULL),
+	(18,'Saisonal',NULL),
+	(19,'Um die Welt',NUll),
+	(7, 'Klassiker', NULL),
+	(3, 'Smoothies', 2),
+	(4, 'Snacks', 2),
+	(5, 'Burger und Co', 1),
+	(6, 'Asiatisch', 19),
+	(8, 'Italienisch', 19),
+	(9, 'Aktionen', NULL),
+	(10, 'Weihnachten', 9),
+	(11, 'Sommergenuss', 9),
+	(12, 'Mensa Vital', 9),
+	(13, 'Sonderangebote', NULL),
+	(14, 'Ersti-Woche', 13),
+	(15, 'Geburtstagsessen', 13),
+	(16, 'Amerikanisches',19),
+	(17, 'Ungarisches',19),
+	(20,'Schwedisches',19),
+	(21,'Griechisches',19),
+	(22,'Mexkanisches',19),
+	(23,'Suppen',17,1);
+	
 INSERT INTO Mahlzeiten (ID,`Beschreibung` , `Name`, `Vorrat`,`Kategorie`)
 VALUES(1,"Beschreibung für Curry Wok", "Curry Wok","0","11"),
 	(2,"Beschreibung für Schnitzel", "Schnitzel","2","12"),
