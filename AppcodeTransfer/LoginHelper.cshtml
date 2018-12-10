@@ -35,7 +35,7 @@ try
                     //string result = PasswordSecurity.PasswordStorage.CreateHash(reader["salt"].ToString() + Request.Form["password"]);
 
                     bool testhash = PasswordSecurity.PasswordStorage.VerifyPassword(Request.Form["password"], "sha1:64000:18:" + reader["salt"].ToString() + ":" + reader["hash"].ToString());
-                    string nummer = reader["Nummer"].ToString();
+                    string nummer = reader["Nutzername"].ToString();
                     string isa = reader["ISA"].ToString();
                     con.Close();
 
