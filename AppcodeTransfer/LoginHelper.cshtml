@@ -27,45 +27,51 @@ try
                 MySqlCommand command = new MySqlCommand(query, con);
                 MySqlDataReader reader = command.ExecuteReader();
                 reader.Read();
-                string teststring = "sha1: 64000:18:" + reader["salt"].ToString() + ":" + reader["hash"].ToString();
+                if (reader.HasRows)
+                {
+                    string teststring = "sha1: 64000:18:" + reader["salt"].ToString() + ":" + reader["hash"].ToString();
 
-                    
+
                     //string result = PasswordSecurity.PasswordStorage.CreateHash(reader["salt"].ToString() + Request.Form["password"]);
-                    
+
                     bool testhash = PasswordSecurity.PasswordStorage.VerifyPassword(Request.Form["password"], "sha1:64000:18:" + reader["salt"].ToString() + ":" + reader["hash"].ToString());
                     string nummer = reader["Nummer"].ToString();
                     string isa = reader["ISA"].ToString();
                     con.Close();
-                   
-                if (testhash)
-                {
-                    Session["User"] = nummer;
-                    Session["Role"] = isa;
+
+                    if (testhash)
+                    {
+                        Session["User"] = nummer;
+                        Session["Role"] = isa;
                 @TrueLogin()
-                }
-                else
-                {
+                        }
+                        else
+                        {
                     @FalseLogin(Request.Form["name"], Request.Form["password"])
+                        }
+                    }
+                    else
+                    {
+                        @FalseLogin(Request.Form["name"], Request.Form["password"])
+                    }
                 }
-
-            }
-            catch (Exception ex)
-            {
-                if (con != null)
+                catch (Exception ex)
                 {
-                    con.Close();
-                }
+                    if (con != null)
+                    {
+                        con.Close();
+                    }
                 <p> @ex </p>
-            }
+                }
 
+            }
+            else
+            {
+                @NOLogin()
+            }
         }
         else
         {
-                @NOLogin()
-        }
-    }
-    else
-    {
             @TrueLogin()
     }
 
