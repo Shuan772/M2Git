@@ -151,15 +151,15 @@ nav li:last-child a {
     width: 10rem;
 }
 
-.card-img-top {
-    /**
-        height: 134px;
-    width: auto;
-        */
-    width: 10rem;
-}
-
-img.desaturate {
+.desaturate {
 
 	filter: grayscale(100%);
+}
+
+.dangerlabel {background-color: #f44336;}
+
+.dangerinput {background-color: #ff6666;}
+
+.logoutbutton {
+    width: 10rem;
 }
