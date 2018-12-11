@@ -33,22 +33,23 @@ try
                 </h1>
             </div>
             <div class="col-3">
-                <h2 style="text-align:right">
+                <!--<h2 style="text-align:right">
                     <b>Gast</b>-Preis
-                </h2>
+                </h2>-->
             </div>
         </div>
 
         <div class="row">
             <div class="col-3">
-                <fieldset class="border align-content-center">
+                @LoginHelper.LoginIndex()
+                <!--<fieldset class="border align-content-center">
                     <legend class="scheduler-border">Login</legend>
                     <div class="container center_div">
                         <input type="text" placeholder="Benutzer">
                         <input type="password" placeholder="password">
                         <a href="#"><u>Anmelden</u></a>
                     </div>
-                </fieldset>
+                </fieldset>-->
             </div>
             <div class="col-6">
                 <!--<div class="card" style="width: 34rem;">-->
@@ -56,14 +57,20 @@ try
                     <img class="card-img-top" src="@imgSrc" alt="@reader["Alt-text"]">
                 </div>
             </div>
+
             <div class="col-3">
-                <h2 style="text-align:right">@reader["Gastpreis"] €</h2>
+                @Preis(number)
+                <!--<h2 style="text-align:right">reader["Gastpreis"] €</h2>-->
                 <button type="button" style="align-self:auto"><i class="fas fa-utensils"></i>Vorbestellen</button>
             </div>
+
         </div>
         <div class="row">
             <div class="col-3">
-                <p>Melden Sie sich jetzt an, um die wirklich viel günstigeren Preise für Mitarbeiter oder Studenten zu sehen.</p>
+                @if (Session["role"] == null)
+                {
+                    <p>Melden Sie sich jetzt an, um die wirklich viel günstigeren Preise für Mitarbeiter oder Studenten zu sehen.</p>
+                }
             </div>
             <div class="col-6">
                 <div class="tabs">
@@ -126,4 +133,48 @@ catch (Exception ex)
 
             }
 
+}
+
+@helper Preis(int id)
+{
+MySqlConnection verbinden = new MySqlConnection(ConfigurationManager.ConnectionStrings["connstring"].ConnectionString);
+
+verbinden.Open();
+
+string query = @"SELECT Gastpreis, Studentpreis, `MA-Preis` FROM preise WHERE MahlzeitenID = @ID";
+
+MySqlCommand command = new MySqlCommand(query, verbinden);
+
+command.Parameters.AddWithValue("ID", id);
+
+
+MySqlDataReader reader = command.ExecuteReader();
+
+
+if (reader.Read())
+{
+    if (Session["role"] != null)
+    {
+        if (Session["role"].ToString() == "Student")
+        {
+                <h4>Studentpreis @reader["Studentpreis"]€</h4>
+        }
+        else if (Session["role"].ToString() == "Gast")
+        {
+                <h4>Gastpreis @reader["Gastpreis"]€</h4>
+        }
+
+        else if (Session["role"].ToString() == "Mitarbeiter")
+        {
+                <h4>Mitarbeiterpreis @reader["MA-Preis"]€</h4>
+        }
+    }
+    else
+    {
+            <h4>Gastpreis @reader["Gastpreis"]€</h4>
+    }
+
+}
+
+verbinden.Close();
 }
